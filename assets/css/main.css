@@ -1,0 +1,29 @@
+/* body {
+    background-image: url('img/up.jpeg');
+    background-size: cover;
+} */
+@font-face {
+    font-family: crete_round;
+    src: url('fonts/Crete_Round/CreteRound-Regular.ttf');
+}
+* {
+    font-family: crete_round;
+}
+
+#main-div{
+    position: relative;
+}
+
+#top-right {
+    right: 0;
+    position: absolute;
+}
+#icon {
+    background-image: url('img/up.jpeg');
+}
+
+#top-left {
+    left: 0;
+    position: absolute;
+}
+

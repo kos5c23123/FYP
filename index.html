@@ -5,27 +5,32 @@
   <meta charset="UTF-8">
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
-  <script src="assets/config.js"></script>
+  <script src="assets/js/config.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 
 <body>
+  <!-- Zone <input type="text" id="zone"></input>
+  <button id="enterzone">Enter</button> <br><br>
   No. <input type="text" id="number"></input> <br><br>
   Name<input type="text" id="name"></input> <br><br>
   <button id="Send">Send/Update</button>
   <button id="Get">Get</button>
-  <button id="Delete">Delete</button>
+  <button id="Delete">Delete</button> -->
+  <div id="main-div">
+    <div id="top-left">
+      <div id="icon">
+        
+      </div>
+      <div id="NowTemp">
+        nowtemp
+      </div>
+  
+    </div>
+    <div id="top-right">
+      Hello
+    </div>
+  </div>
 </body>
-<script src="assets/Database.js"></script>
-<!-- <script>
-  var db = firebase.database();
-
-
-  function Hello() {
-    db.ref('record').set({
-      Name: "Danny",
-      age: "11"
-    })
-  }
-</script> -->
-
+<script src="assets/js/Database.js"></script>
 </html>
