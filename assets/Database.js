@@ -1,22 +1,40 @@
-var firebaseConfig = {
-    apiKey: "AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ",
-    authDomain: "ouhk-fyp-375a7.firebaseapp.com",
-    databaseURL: "https://ouhk-fyp-375a7.firebaseio.com",
-    projectId: "ouhk-fyp-375a7",
-    storageBucket: "ouhk-fyp-375a7.appspot.com",
-    messagingSenderId: "734811011597",
-    appId: "1:734811011597:web:d66ab1949b48362335f344",
-    measurementId: "G-KYXBJSSVC9"
-  };
+let SendBut = document.getElementById("Send");
+let GetBut = document.getElementById("Get");
+let DeleteBut = document.getElementById("Delete");
+let db = firebase.database();
 
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
+SendBut.addEventListener("click", function () {
+    let name = document.getElementById("name").value;
+    let number = document.getElementById("number").value;
+    if (name == "" || number == "") {
+        alert("Please input someing");
+    } else {
+        var data = {
+            number: number,
+            name: name
+        }
 
-  var db = firebase.database();
+        db.ref("record/" + number).set(data);
+        // document.getElementById('name').value = snapshot.val().name;
+    }
+})
 
-  function Hello() {
-      db.collection("name").doc("Danny").set({
-          Name: "Danny",
-          age: "11"
-      })
-  }
+GetBut.addEventListener("click", function () {
+    let number = document.getElementById("number").value;
+    if (number == "") {
+        alert("Please input something for search");
+    } else {
+        db.ref("record/" + number).once('value').then(function (snapshot) {
+            document.getElementById('name').value = (snapshot.val() && snapshot.val().name) || 'Null';
+        });
+    }
+})
+
+DeleteBut.addEventListener("click", function(){
+    let number = document.getElementById("number").value;
+    if (number == "") {
+        alert("Please input something for delete");
+    } else {
+        db.ref("record/" + number).remove();
+    }
+})

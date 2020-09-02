@@ -1,12 +1,31 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="UTF-8">
-      <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
-      <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
-      <script src="assets/Database.js"></script>
-    </head>
-    <body>
-      <button onclick="Hello()">Hello</button>>
-    </body>
-  </html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
+  <script src="assets/config.js"></script>
+</head>
+
+<body>
+  No. <input type="text" id="number"></input> <br><br>
+  Name<input type="text" id="name"></input> <br><br>
+  <button id="Send">Send/Update</button>
+  <button id="Get">Get</button>
+  <button id="Delete">Delete</button>
+</body>
+<script src="assets/Database.js"></script>
+<!-- <script>
+  var db = firebase.database();
+
+
+  function Hello() {
+    db.ref('record').set({
+      Name: "Danny",
+      age: "11"
+    })
+  }
+</script> -->
+
+</html>
