@@ -17,20 +17,52 @@
   <button id="Send">Send/Update</button>
   <button id="Get">Get</button>
   <button id="Delete">Delete</button> -->
-  <div id="main-div">
-    <div id="top-left">
-      <div id="icon">
-        
+  <div class="main-div">
+
+    <div class="top-left">
+
+      <div id="icon" class="top-left-child">
+        Icon
       </div>
-      <div id="NowTemp">
-        nowtemp
+
+      <div class="top-left-child CurrentTemp">
+        <span id="NowTemp">nowtemp</span>
+        <span>°C</span>
       </div>
-  
+
+      <div id="NowLocation" class="top-left-child">
+        Nowlocation
+      </div>
+
+      <div id="Date" class="top-left-child">
+      </div>
+      <div id="nowTime" class="top-left-child">
+      </div>
+
     </div>
-    <div id="top-right">
-      Hello
+
+    <div class="top-right">
+
+      <div class="top-right-child">
+        <div class="sidebar">
+          <img src="assets/css/img/wind.png" alt="WindIcon">
+        </div>
+        <div>
+          <span>Wind Speed</span>
+        </div>
+        <div class="WindSpeed">X</div>
+      </div>
+      <div class="top-right-child">
+        Humidity
+      </div>
+
     </div>
+
   </div>
+
 </body>
 <script src="assets/js/Database.js"></script>
+<script src="assets/js/Timer.js"></script>
+<script src="assets/js/GetWeather.js"></script>
+
 </html>

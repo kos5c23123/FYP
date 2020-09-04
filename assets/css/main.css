@@ -10,20 +10,39 @@
     font-family: crete_round;
 }
 
-#main-div{
+.main-div{
     position: relative;
 }
 
-#top-right {
+.top-right {
     right: 0;
     position: absolute;
+    margin: 4% 10% 0 0;
+}
+.top-right-child {
+    margin-bottom: 25px;
+    position: relative;
+}
+.WindSpeed {
+    margin: 5px 0 0 50%;
+}
+.sidebar {
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+.top-left {
+    left: 0;
+    position: absolute;
+    margin: 4% 0 0 4%;
 }
 #icon {
     background-image: url('img/up.jpeg');
 }
-
-#top-left {
-    left: 0;
-    position: absolute;
+.CurrentTemp {
+    font-size: 30px;
 }
-
+.top-left-child {
+    margin: 0 0 15px;
+}

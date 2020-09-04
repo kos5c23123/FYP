@@ -1,5 +1,11 @@
-import time
+import requests
+from bs4 import BeautifulSoup
 
-while True:
-    print('Hello, world!')
-    time.sleep(5)
+URL = 'https://www.hko.gov.hk/en/'
+page = requests.get(URL)
+
+soup = BeautifulSoup(page.content, 'html.parser')
+
+results = soup.find_all('span', class_='hkoTemp')
+
+print(results)
