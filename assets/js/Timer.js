@@ -1,5 +1,4 @@
 
-
 function checkTime(i) {
     return (i < 10) ? "0" + i : i;
 }
@@ -30,17 +29,14 @@ function checkTimeIsMatch() {
         s = checkTime(today.getSeconds());
     if ((m == Min || m == Sec) && s == Sec) {
         var T = setTimeout(function () {
-            console.log("He")
-                ;
+            GetData();
         }, 500)
     }
 }
 
-
 // navigator.geolocation.getCurrentPosition(function (position) {
 //     console.log('Pos: ', position);
-//     alert("Okay");
-// }, function (error) {
+//   }, function (error) {
 //     console.log('Err', error);
 //     alert(error.message);
-// });
+//   });

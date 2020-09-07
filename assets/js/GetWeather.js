@@ -1,28 +1,19 @@
-const Http = new XMLHttpRequest();
-const url = 'https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread';
-Http.open("GET", url);
-Http.send();
+let db = firebase.database();
+let NowTemp = document.getElementById("NowTemp");
+let icon = document.getElementById("icon");
+let iconNumber;
 
-Http.onreadystatechange = (e) => {
-    //   console.log(Http.responseText)
-    var json = Http.responseText;
-    // var obj = JSON.parse(json);
-    // arrayList = obj.temperature.data[1];
-    console.log(json);
+var Time = new Date();
+let Today = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-' + ('0' + Time.getDate()).slice(-2);
+let HKreg = "HK/" + Today;
 
-    // function printValues(obj) {
-    //     for(var k in obj) {
-    //         if(obj[k] instanceof Object) {
-    //             printValues(obj[k]);
-    //             console.log(obj[k]);
-    //         } else {
-    //             // console.log(obj[k]);
-    //             };
-    //     }
-    // };
-
-    // printValues(obj);
-
-
+function GetData() {
+    db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
+        NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+    })
+    db.ref(HKreg + "/icon").on('value', function(snapshot){
+        iconNumber = snapshot.val();
+    })
+    // if (iconNumber == ){}
 }
-
+GetData();

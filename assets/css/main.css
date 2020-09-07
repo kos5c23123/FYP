@@ -37,9 +37,6 @@
     position: absolute;
     margin: 4% 0 0 4%;
 }
-#icon {
-    background-image: url('img/up.jpeg');
-}
 .CurrentTemp {
     font-size: 30px;
 }

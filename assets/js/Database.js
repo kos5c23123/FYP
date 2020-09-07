@@ -2,7 +2,7 @@ let SendBut = document.getElementById("Send");
 let GetBut = document.getElementById("Get");
 let DeleteBut = document.getElementById("Delete");
 let EnterZone = document.getElementById("enterzone");
-let db = firebase.database();
+// let db = firebase.database();
 var Zone;
 var OpenZone = false;
 
