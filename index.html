@@ -22,11 +22,10 @@
     <div class="top-left">
 
       <div id="icon" class="top-left-child">
-        Icon
       </div>
 
       <div class="top-left-child CurrentTemp">
-        <span id="NowTemp">nowtemp</span>
+        <span id="NowTemp"></span>
         <span>°C</span>
       </div>
 
@@ -44,16 +43,48 @@
     <div class="top-right">
 
       <div class="top-right-child">
+
         <div class="sidebar">
-          <img src="assets/css/img/wind.png" alt="WindIcon">
+          <img src="assets/css/img/rain.png" alt="RainIcon">
         </div>
-        <div>
-          <span>Wind Speed</span>
+
+        <div class="Fristcol">
+          <span>Rainfall</span>
         </div>
-        <div class="WindSpeed">X</div>
+
+        <div class="Fristcol">
+          <span id="rainfall"></span>
+          <span>mm</span>
+        </div>
+
       </div>
+
       <div class="top-right-child">
-        Humidity
+        <div class="sidebar">
+          <img src="assets/css/img/humidity.png" alt="HsumidityIcon">
+        </div>
+
+        <div class="Fristcol">
+          <span>Humidity</span>
+        </div>
+
+        <div class="Fristcol">
+          <span id="humidity" ></span>
+          <span>%</span>
+        </div>
+      </div>
+
+      <div class="top-right-child">
+        <div class="sidebar">
+          <img src="assets/css/img/uv.png" alt="UVIcon">
+        </div>
+
+        <div class="Fristcol">
+          <span>UV</span>
+        </div>
+
+        <div id="UV" class="Fristcol">
+        </div>
       </div>
 
     </div>
@@ -62,7 +93,6 @@
 
 </body>
 <!-- <script src="assets/js/Database.js"></script> -->
-<script src="assets/js/Timer.js"></script>
 <script src="assets/js/GetWeather.js"></script>
 
 </html>

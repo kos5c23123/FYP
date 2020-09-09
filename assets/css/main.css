@@ -23,13 +23,13 @@
     margin-bottom: 25px;
     position: relative;
 }
-.WindSpeed {
+.Fristcol {
     margin: 5px 0 0 50%;
+    width: 100%;
+    font-size: 20px;
 }
 .sidebar {
     overflow-x: hidden;
-    height: 100%;
-    width: 100%;
     position: absolute;
 }
 .top-left {
@@ -42,4 +42,9 @@
 }
 .top-left-child {
     margin: 0 0 15px;
+}
+#icon {
+    height: 60px;
+    width: 60px;
+    background-size: cover;
 }
