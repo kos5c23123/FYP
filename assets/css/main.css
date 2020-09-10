@@ -18,6 +18,7 @@
     right: 0;
     position: absolute;
     margin: 4% 10% 0 0;
+    width: 120px;
 }
 .top-right-child {
     margin-bottom: 25px;
@@ -31,6 +32,18 @@
 .sidebar {
     overflow-x: hidden;
     position: absolute;
+}
+.sidebar.temp {
+    width: 200px;
+}
+.HighLowTemp {
+    font-size: 20px;
+    display: inline-block;
+}
+.HighLowTempText {
+    display: inline-block;
+    position: absolute;
+    margin: 0 0 0 4%;
 }
 .top-left {
     left: 0;

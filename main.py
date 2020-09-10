@@ -33,11 +33,16 @@ def GetWeather():
     NowDay = datetime.today().strftime('%Y-%m-%d')
     NowHour = datetime.today().strftime('%H')
     NowMinute = datetime.today().strftime('%M')
-    NowMinAndSec = (NowHour + ":" + NowMinute)  
+    NowMinAndSec = (NowHour + ":" + NowMinute)
+    PassValue = []
+    Arraykey = ['HighTemp','LowTemp']
     req = requests.get(rhrread)
     req_json = json.loads(req.text)
     Temp = req_json['temperature']['data']
     Rain = req_json['rainfall']['data']
+    HighValue = Temp[0]['value']
+    LowValue = Temp[0]['value']
+    ref2 = db.reference('/HK').child(NowDay)
     ref = db.reference('/HK').child(NowDay).child(NowMinAndSec)
     if req_json['uvindex'] == "":
         ref.set({
@@ -67,6 +72,44 @@ def GetWeather():
             'main' :Rain[x]['main'],
             'max' : Rain[x]['max']
             })
+    snapshot = ref2.order_by_key().get()
+    for key, val in snapshot.items():
+        for x in range(len(Arraykey)):
+            if (key == Arraykey[x]):
+                PassValue.append(val)
+                Status  = "Exist"
+            else:
+                ref2.update({
+                    'HighTemp' : HighValue,
+                    'LowTemp' : LowValue
+                })
+                Status = "NotExist"
+    if Status == "Exist":
+        for x in range(len(Temp)):
+            nowValue = Temp[x]['value']
+            if (nowValue >= HighValue):
+                HighValue = nowValue
+            if (nowValue <= LowValue):
+                LowValue = nowValue
+        if HighValue <= PassValue[0]:
+            HighValue = PassValue[0]
+        if LowValue >= PassValue[1]:
+            LowValue = PassValue[1]
+        ref2.update({
+            'HighTemp' : HighValue,
+            'LowTemp' : LowValue
+        })
+    if Status == "NotExist":
+        for x in range(len(Temp)):
+            nowValue = Temp[x]['value']
+            if (nowValue >= HighValue):
+                HighValue = nowValue
+            if (nowValue <=LowValue):
+                LowValue = nowValue
+        ref2.update({
+            'HighTemp' : HighValue,
+            'LowTemp' : LowValue
+        })
     print("GetWeather:Finished Sending!")
 
 def GetFuture():
@@ -74,7 +117,6 @@ def GetFuture():
     req = requests.get(fnd)
     req_json = json.loads(req.text)
     futureWeather = req_json['weatherForecast']
-    # ref = db.reference('/HK').child('Next7Days')
     DateArray = []
     for x in range(len(futureWeather)):
         DateArray.append(str(x))
