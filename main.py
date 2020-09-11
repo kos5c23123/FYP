@@ -14,6 +14,8 @@ firebase_admin.initialize_app(cred,{
 rhrread = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread"
 #九天天氣預報
 fnd = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd"
+#天氣警告資訊
+warningInfo = "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=warningInfo"
 
 def CheckTime():
     NowHour = datetime.today().strftime('%H')
@@ -148,5 +150,15 @@ def GetSun():
         })
     print("GetSun:Finished Sending!")
 
-while True:
-    CheckTime()
+# while True:
+#     CheckTime()
+
+# reqwarninfo = requests.get(warningInfo)
+# reqwarninfo_json = json.loads(reqwarninfo.text)
+# warnStatusCode = []
+# if (reqwarninfo_json == {}):
+#     print("Yes")
+# else:
+#     warninfo = reqwarninfo_json['details']
+#     for x in range(len(warninfo)):
+#         warnStatusCode.append(warninfo[x]['warningStatementCode'])

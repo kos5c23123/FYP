@@ -71,5 +71,20 @@ function checkTimeIsMatch() {
     }
 }
 
+function GetLovation() {
+    navigator.geolocation.getCurrentPosition(success, error, options);
+}
+function success(){
+    alert("Okay")
+}
+function error(err) {
+    alert(`ERROR(${err.code}): ${err.message}`)
+}
+var options = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 600000
+};
+
 startTime();
 GetData();

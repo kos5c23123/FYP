@@ -9,14 +9,7 @@
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
 </head>
 
-<body>
-  <!-- Zone <input type="text" id="zone"></input>
-  <button id="enterzone">Enter</button> <br><br>
-  No. <input type="text" id="number"></input> <br><br>
-  Name<input type="text" id="name"></input> <br><br>
-  <button id="Send">Send/Update</button>
-  <button id="Get">Get</button>
-  <button id="Delete">Delete</button> -->
+<body onload="GetLovation()">
   <div class="main-div">
 
     <div class="top-left">
@@ -45,7 +38,7 @@
       <div class="top-right-child">
 
         <div class="sidebar">
-          <img src="assets/css/img/rain.png" alt="RainIcon">
+          <img src="assets/css/img/rainfall.png" alt="RainIcon">
         </div>
 
         <div class="Fristcol">
@@ -105,13 +98,86 @@
           </div>
         </div>
       </div>
-
     </div>
 
+  </div>
+  <div class="container">
+    <div class="Slides">
+      <span>NowTime</span>
+      <div>Icon</div>
+      <span class="SlideText">1</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="Slides">
+      <span>Time</span>
+      <div>Icon</div>
+      <span class="SlideText">2</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="Slides">
+      <span>Time</span>
+      <div>Icon</div>
+      <span class="SlideText">3</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="Slides">
+      <span>Time</span>
+      <div>Icon</div>
+      <span class="SlideText">4</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="Slides">
+      <span>Time</span>
+      <div>Icon</div>
+      <span class="SlideText">5</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="Slides">
+      <span>Time</span>
+      <div>Icon</div>
+      <span class="SlideText">6</span>
+      <span class="SlideText">°C</span>
+    </div>
+    <div class="butcontainer">
+      <a class="prev" onclick="Add()">&#10094;</a>
+      <a class="next" onclick="Add()">&#10095;</a>
+    </div>
   </div>
 
 </body>
 <!-- <script src="assets/js/Database.js"></script> -->
 <script src="assets/js/GetWeather.js"></script>
+<script>
+var data = ['1','2','3','4','5','6','7']
+var slides = document.getElementsByClassName("Slides");
+function Add() {
+    let zeroData = slides[0].innerHTML;
+    for(i=1;i<slides.length;i++){
+      slides[i-1].innerHTML = slides[i].innerHTML;
+    }
+  slides[slides.length-1].innerHTML = zeroData;
+}
+
+// function Add() {
+//   if (Index >= slides.length){
+//     Index = 1;
+//     for (var j = 0;j < 4;j++){
+//       slides[(Index+j-1)%slides.length].style.display = "inline-block"
+//     }
+//     for (var j = 0;j < slides.length-4;j++){
+//       slides[(Index+j+3)%slides.length].style.display = "none"
+//     }
+//   }else{
+//     Index += 1;
+//     for (var j = 0;j < 4;j++){
+//       slides[(Index+j-1)%slides.length].style.display = "inline-block"
+//     }
+//     for (var j = 0;j < slides.length-4;j++){
+//       slides[(Index+j+3)%slides.length].style.display = "none"
+//     }
+//   }
+//   console.log("Index is " + Index);
+// }
+</script>
 
 </html>
