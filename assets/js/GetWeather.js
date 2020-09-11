@@ -33,6 +33,10 @@ function GetData() {
     db.ref(HKreg + "/rainfall/Sha Tin").on('value', function(snapshot){
         rainfall.innerHTML = snapshot.val().max;
     })
+    db.ref("HK/" + Today).on('value', function(snapshot){
+        HighTempValue.innerHTML = snapshot.val().HighTemp;
+        LowTempValue.innerHTML = snapshot.val().LowTemp;
+    })
 }
 
 function checkTime(i) {
