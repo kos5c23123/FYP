@@ -1,9 +1,15 @@
 let db = firebase.database();
 let NowTemp = document.getElementById("NowTemp");
-let icon = document.getElementById("icon");
+let icon1 = document.getElementById("icon1");
+let icon2 = document.getElementById("icon2");
+let ToIcon = document.getElementById("Toicon");
 let UV = document.getElementById("UV");
 let humidity = document.getElementById("humidity");
 let rainfall = document.getElementById("rainfall");
+var slides = document.getElementsByClassName("Slides").length;
+let text = document.getElementsByClassName("SlideText");
+var data = ['1','2','3','4','5','6','7']
+let currentIndex = 0;
 let iconNumber;
 let TimeArray = [00,30];
 
@@ -22,7 +28,14 @@ function GetData() {
     })
     db.ref(HKreg + "/icon").on('value', function(snapshot){
         iconNumber = snapshot.val() || 'NULL';
-        icon.style.backgroundImage = "url('assets/css/img/" +iconNumber + ".png')";
+        if (iconNumber.length >= 2){
+            icon1.style.backgroundImage = "url('assets/css/img/" +iconNumber[0] + ".png')";
+            icon2.style.backgroundImage = "url('assets/css/img/" +iconNumber[1] + ".png')";
+        }else{
+            icon1.style.backgroundImage = "url('assets/css/img/" +iconNumber + ".png')";
+            icon2.style.display = "none";
+            ToIcon.style.display = "none";
+        }
     })
     db.ref(HKreg).on('value', function(snapshot){
         UV.innerHTML = snapshot.val().UV;
@@ -71,20 +84,35 @@ function checkTimeIsMatch() {
     }
 }
 
-function GetLovation() {
-    navigator.geolocation.getCurrentPosition(success, error, options);
+function GetLocation() {
+    if(!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error);
+      }
 }
-function success(){
-    alert("Okay")
+function success(position){
+    const latitude  = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    console.log(latitude,longitude);
 }
 function error(err) {
     alert(`ERROR(${err.code}): ${err.message}`)
 }
-var options = {
-    enableHighAccuracy: true,
-    timeout: 10000,
-    maximumAge: 600000
-};
+
+const Add = step => {
+    currentIndex += step;
+    while(currentIndex < 0) {
+      currentIndex += data.length;
+    }
+    const result = Array.from({ length: slides }, (_, i) => data[(currentIndex + i) % data.length]);
+    for (var j = 0 ;j <result.length;j++){
+      text[j].innerHTML = result[j];
+    }
+    return result;
+  }
+
 
 startTime();
 GetData();
+Add(0);

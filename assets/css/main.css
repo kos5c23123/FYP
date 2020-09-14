@@ -3,12 +3,8 @@ body {
     background-image: url('img/up.jpeg');
     background-size: cover;
 }
-@font-face {
-    font-family: crete_round;
-    src: url('fonts/Crete_Round/CreteRound-Regular.ttf');
-}
 * {
-    font-family: crete_round;
+    font-family: 'Roboto Mono', monospace;
     color: white;
 }
 .main-div{
@@ -46,6 +42,9 @@ body {
     position: absolute;
     margin: 0 0 0 4%;
 }
+.fas {
+    font-size: 32px;
+}
 .top-left {
     left: 0;
     position: absolute;
@@ -57,16 +56,25 @@ body {
 .top-left-child {
     margin: 0 0 15px;
 }
-#icon {
+.iconWeather {
     height: 60px;
     width: 60px;
     background-size: cover;
+    display: inline-block;
+}
+.Toicon {
+    position: absolute;
+    display: inline-block;
+    margin: 15% 0 0 5px;
+}
+#icon2 {
+    margin-left: 15px;
 }
 .container {
     position: absolute;
     bottom: 0;
     margin: auto;
-    height: 200px;
+    height: 30%;
     width: 99%;
 }
 .prev, .next {
@@ -101,6 +109,6 @@ body {
     height: 100px;
     width: 80px;
 }
-.SlideText {
+.SlideText, .SlideTextTemp {
     font-size: 22px;
 }

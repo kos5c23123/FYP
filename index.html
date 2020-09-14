@@ -6,15 +6,21 @@
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
   <script src="assets/js/config.js"></script>
+  <script src="https://kit.fontawesome.com/8d22a446d2.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 
-<body onload="GetLovation()">
+<!-- <body onload="GetLocation()"> -->
+  <body>
   <div class="main-div">
 
     <div class="top-left">
 
-      <div id="icon" class="top-left-child">
+      <div id="icon1" class="top-left-child iconWeather">
+      </div>
+      <div id="Toicon" class="top-left-child Toicon">&#10095;</div>
+      <div id="icon2" class="top-left-child iconWeather">
       </div>
 
       <div class="top-left-child CurrentTemp">
@@ -38,7 +44,8 @@
       <div class="top-right-child">
 
         <div class="sidebar">
-          <img src="assets/css/img/rainfall.png" alt="RainIcon">
+          <!-- <img src="assets/css/img/rainfall.png" alt="RainIcon"> -->
+          <i class="fas fa-cloud-rain"></i>
         </div>
 
         <div class="Fristcol">
@@ -54,7 +61,8 @@
 
       <div class="top-right-child">
         <div class="sidebar">
-          <img src="assets/css/img/humidity.png" alt="HsumidityIcon">
+          <!-- <img src="assets/css/img/humidity.png" alt="HsumidityIcon"> -->
+          <i class="fas fa-tint"></i>
         </div>
 
         <div class="Fristcol">
@@ -69,7 +77,8 @@
 
       <div class="top-right-child">
         <div class="sidebar">
-          <img src="assets/css/img/uv.png" alt="UVIcon">
+          <!-- <img src="assets/css/img/uv.png" alt="UVIcon"> -->
+          <i class="fas fa-sun"></i>
         </div>
 
         <div class="Fristcol">
@@ -83,14 +92,16 @@
       <div class="top-right-child">
         <div class="sidebar temp">
           <div class="HighLowTemp">
-            <img src="assets/css/img/up.png" alt="UPIcon">
+            <!-- <img src="assets/css/img/up.png" alt="UPIcon"> -->
+            <i class="fas fa-arrow-up"></i>
             <div class="HighLowTempText">
               <span id="HighTempValue"></span>
               <span>°C</span>
             </div>
           </div>
-          <div class="HighLowTemp" style="margin: 0 0 0 25%;">
-            <img src="assets/css/img/down.png" alt="DownIcon">
+          <div class="HighLowTemp" style="margin: 0 0 0 30%;">
+            <!-- <img src="assets/css/img/down.png" alt="DownIcon"> -->
+            <i class="fas fa-arrow-down"></i>
             <div class="HighLowTempText">
               <span id="LowTempValue"></span>
               <span>°C</span>
@@ -105,42 +116,42 @@
     <div class="Slides">
       <span>NowTime</span>
       <div>Icon</div>
-      <span class="SlideText">1</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">1</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="Slides">
       <span>Time</span>
       <div>Icon</div>
-      <span class="SlideText">2</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">2</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="Slides">
       <span>Time</span>
       <div>Icon</div>
-      <span class="SlideText">3</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">3</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="Slides">
       <span>Time</span>
       <div>Icon</div>
-      <span class="SlideText">4</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">4</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="Slides">
       <span>Time</span>
       <div>Icon</div>
-      <span class="SlideText">5</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">5</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="Slides">
       <span>Time</span>
       <div>Icon</div>
-      <span class="SlideText">6</span>
-      <span class="SlideText">°C</span>
+      <span id="testing" class="SlideText">6</span>
+      <span class="SlideTextTemp">°C</span>
     </div>
     <div class="butcontainer">
-      <a class="prev" onclick="Add()">&#10094;</a>
-      <a class="next" onclick="Add()">&#10095;</a>
+      <a class="prev" onclick="Add(-1)">&#10094;</a>
+      <a class="next" onclick="Add(1)">&#10095;</a>
     </div>
   </div>
 
@@ -148,36 +159,6 @@
 <!-- <script src="assets/js/Database.js"></script> -->
 <script src="assets/js/GetWeather.js"></script>
 <script>
-var data = ['1','2','3','4','5','6','7']
-var slides = document.getElementsByClassName("Slides");
-function Add() {
-    let zeroData = slides[0].innerHTML;
-    for(i=1;i<slides.length;i++){
-      slides[i-1].innerHTML = slides[i].innerHTML;
-    }
-  slides[slides.length-1].innerHTML = zeroData;
-}
-
-// function Add() {
-//   if (Index >= slides.length){
-//     Index = 1;
-//     for (var j = 0;j < 4;j++){
-//       slides[(Index+j-1)%slides.length].style.display = "inline-block"
-//     }
-//     for (var j = 0;j < slides.length-4;j++){
-//       slides[(Index+j+3)%slides.length].style.display = "none"
-//     }
-//   }else{
-//     Index += 1;
-//     for (var j = 0;j < 4;j++){
-//       slides[(Index+j-1)%slides.length].style.display = "inline-block"
-//     }
-//     for (var j = 0;j < slides.length-4;j++){
-//       slides[(Index+j+3)%slides.length].style.display = "none"
-//     }
-//   }
-//   console.log("Index is " + Index);
-// }
 </script>
 
 </html>
