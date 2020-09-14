@@ -8,7 +8,9 @@ let humidity = document.getElementById("humidity");
 let rainfall = document.getElementById("rainfall");
 var slides = document.getElementsByClassName("Slides").length;
 let text = document.getElementsByClassName("SlideText");
-var data = ['1','2','3','4','5','6','7']
+let NowLocation = document.getElementById("NowLocation");
+const Http = new XMLHttpRequest();
+var data = ['1','2','3','1','2','3','1','2','3']
 let currentIndex = 0;
 let iconNumber;
 let TimeArray = [00,30];
@@ -23,9 +25,6 @@ function GetData() {
     }else {
         HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
     }
-    db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
-        NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
-    })
     db.ref(HKreg + "/icon").on('value', function(snapshot){
         iconNumber = snapshot.val() || 'NULL';
         if (iconNumber.length >= 2){
@@ -38,18 +37,48 @@ function GetData() {
         }
     })
     db.ref(HKreg).on('value', function(snapshot){
-        UV.innerHTML = snapshot.val().UV;
+        UV.innerHTML = snapshot.val().UV || 'NULL';
     })
     db.ref(HKreg).on('value', function(snapshot){
-        humidity.innerHTML = snapshot.val().humidity;
-    })
-    db.ref(HKreg + "/rainfall/Sha Tin").on('value', function(snapshot){
-        rainfall.innerHTML = snapshot.val().max;
+        humidity.innerHTML = snapshot.val().humidity || 'NULL';
     })
     db.ref("HK/" + Today).on('value', function(snapshot){
-        HighTempValue.innerHTML = snapshot.val().HighTemp;
-        LowTempValue.innerHTML = snapshot.val().LowTemp;
+        HighTempValue.innerHTML = snapshot.val().HighTemp || 'NULL';
+        LowTempValue.innerHTML = snapshot.val().LowTemp || 'NULL';
     })
+}
+
+function GetDataOfDist(){
+    var Time = new Date();
+    Today = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-' + ('0' + Time.getDate()).slice(-2);
+    HKreg = "HK/" + Today;
+    var Mins = Time.getMinutes();
+    if (Mins >= 30){
+        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[1];
+    }else {
+        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
+    }
+    Http.onreadystatechange = (e) =>{
+        let json = JSON.parse(Http.responseText);
+        var Dist = json["results"];
+        let Final = "";
+        let Zone = Dist[(Dist.length)-4]['address_components'][0]['long_name'];
+        NowLocation.innerHTML = Zone;
+        ArrayZone = Zone.split(" ");
+        for (var i = 0; i < ArrayZone.length-1;i++){
+            if (i == ArrayZone.length-2){
+                Final += ArrayZone[i];
+            }else {
+                Final += (ArrayZone[i]+ " ");
+            }
+        }
+        db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
+            NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+        })
+        db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
+            rainfall.innerHTML = snapshot.val().max || 'NULL';
+        })
+    }
 }
 
 function checkTime(i) {
@@ -94,7 +123,11 @@ function GetLocation() {
 function success(position){
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
-    console.log(latitude,longitude);
+    let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude +','+ longitude + '&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
+    // let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=22.3919353,114.1863081&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
+    Http.open("GET",url);
+    Http.send();
+    GetDataOfDist();
 }
 function error(err) {
     alert(`ERROR(${err.code}): ${err.message}`)
@@ -116,3 +149,5 @@ const Add = step => {
 startTime();
 GetData();
 Add(0);
+
+
