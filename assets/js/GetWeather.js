@@ -37,7 +37,7 @@ function GetData() {
         }
     })
     db.ref(HKreg).on('value', function(snapshot){
-        UV.innerHTML = snapshot.val().UV || 'NULL';
+        UV.innerHTML = snapshot.val().UV;
     })
     db.ref(HKreg).on('value', function(snapshot){
         humidity.innerHTML = snapshot.val().humidity || 'NULL';
@@ -124,6 +124,7 @@ function success(position){
     const latitude  = position.coords.latitude;
     const longitude = position.coords.longitude;
     let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude +','+ longitude + '&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
+    //Example Link
     // let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=22.3919353,114.1863081&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
     Http.open("GET",url);
     Http.send();
