@@ -10,7 +10,7 @@ var slides = document.getElementsByClassName("Slides").length;
 let text = document.getElementsByClassName("SlideText");
 let NowLocation = document.getElementById("NowLocation");
 const Http = new XMLHttpRequest();
-var data = ['1','2','3','1','2','3','1','2','3']
+let FThours = []
 let currentIndex = 0;
 let iconNumber;
 let TimeArray = [00,30];
@@ -46,6 +46,13 @@ function GetData() {
         HighTempValue.innerHTML = snapshot.val().HighTemp || 'NULL';
         LowTempValue.innerHTML = snapshot.val().LowTemp || 'NULL';
     })
+    db.ref("HK/Next48Hours").on('value', function(snapshot){
+        for(var i = 0;i <(snapshot.val()).length;i++){
+            FThours[i] = (snapshot.val())[i].temp;
+        }
+        Add(0);
+    })
+
 }
 
 function GetDataOfDist(){
@@ -137,9 +144,9 @@ function error(err) {
 const Add = step => {
     currentIndex += step;
     while(currentIndex < 0) {
-      currentIndex += data.length;
+      currentIndex += FThours.length;
     }
-    const result = Array.from({ length: slides }, (_, i) => data[(currentIndex + i) % data.length]);
+    const result = Array.from({ length: slides }, (_, i) => FThours[(currentIndex + i) % FThours.length]);
     for (var j = 0 ;j <result.length;j++){
       text[j].innerHTML = result[j];
     }
@@ -149,6 +156,4 @@ const Add = step => {
 
 startTime();
 GetData();
-Add(0);
-
 
