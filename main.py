@@ -138,12 +138,11 @@ def Get48Future():
 while True:
     CheckTime()
 
-# reqwarninfo = requests.get(warningInfo)
-# reqwarninfo_json = json.loads(reqwarninfo.text)
+# reqwarninfo = requests.get(warningInfo).json()
 # warnStatusCode = []
-# if (reqwarninfo_json == {}):
+# if (reqwarninfo == {}):
 #     print("Yes")
 # else:
-#     warninfo = reqwarninfo_json['details']
+#     warninfo = reqwarninfo['details']
 #     for x in range(len(warninfo)):
 #         warnStatusCode.append(warninfo[x]['warningStatementCode'])
