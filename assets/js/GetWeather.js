@@ -8,9 +8,11 @@ let humidity = document.getElementById("humidity");
 let rainfall = document.getElementById("rainfall");
 var slides = document.getElementsByClassName("Slides").length;
 let text = document.getElementsByClassName("SlideText");
+let textTime = document.getElementsByClassName("SlideTextTime");
 let NowLocation = document.getElementById("NowLocation");
 const Http = new XMLHttpRequest();
-let FThours = []
+let FThours = [];
+let NextHours = [];
 let currentIndex = 0;
 let iconNumber;
 let TimeArray = [00,30];
@@ -49,6 +51,7 @@ function GetData() {
     db.ref("HK/Next48Hours").on('value', function(snapshot){
         for(var i = 0;i <(snapshot.val()).length;i++){
             FThours[i] = (snapshot.val())[i].temp;
+            NextHours[i] = (snapshot.val())[i].time;
         }
         Add(0);
     })
@@ -147,8 +150,10 @@ const Add = step => {
       currentIndex += FThours.length;
     }
     const result = Array.from({ length: slides }, (_, i) => FThours[(currentIndex + i) % FThours.length]);
+    const TimeResult = Array.from({length : slides}, (_, i) =>NextHours[(currentIndex + i) % NextHours.length]);
     for (var j = 0 ;j <result.length;j++){
-      text[j].innerHTML = result[j];
+    textTime[j].innerHTML = TimeResult[j];
+    text[j].innerHTML = result[j];
     }
     return result;
   }

@@ -168,7 +168,7 @@ def Get48Future():
         DateArray.append(str(x))
         ref = db.reference('/HK').child('Next48Hours').child(DateArray[x])
         ref.update({
-            'time' : DayTimeArray[IntNowHour % len(DayTimeArray)],
+            'time' : DayTimeArray[(IntNowHour+1) % len(DayTimeArray)],
             "temp" : int(Temp[x]['temp'])
         })
         IntNowHour += 1
