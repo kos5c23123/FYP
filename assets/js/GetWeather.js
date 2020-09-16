@@ -152,8 +152,14 @@ const Add = step => {
     const result = Array.from({ length: slides }, (_, i) => FThours[(currentIndex + i) % FThours.length]);
     const TimeResult = Array.from({length : slides}, (_, i) =>NextHours[(currentIndex + i) % NextHours.length]);
     for (var j = 0 ;j <result.length;j++){
-    textTime[j].innerHTML = TimeResult[j];
-    text[j].innerHTML = result[j];
+    // textTime[j].innerHTML = TimeResult[j];
+    if (TimeResult[j] >= 12){
+        textTime[j].innerHTML =  TimeResult[j] + "PM";
+        text[j].innerHTML = result[j];
+    }else{
+        textTime[j].innerHTML =  TimeResult[j] + "AM";
+        text[j].innerHTML = result[j];
+    }
     }
     return result;
   }

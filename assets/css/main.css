@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    background-image: url('img/up.jpeg');
+    background-image: url('img/bg.jpg');
     background-size: cover;
 }
 * {
@@ -103,7 +103,6 @@ body {
     padding-top: 5%;
 }
 .Slides {
-    /* background-color: violet; */
     display: inline-block;
     margin: 15px;
     height: 100px;
@@ -111,4 +110,16 @@ body {
 }
 .SlideText, .SlideTextTemp {
     font-size: 22px;
+}
+.SlideTextTime {
+    margin: 5%;
+    font-size: 28px;
+}
+.Slides.BotNowTime {
+    box-shadow:0px 10px 30px 5px rgba(0,0,0,0.75);
+  border-radius: 5px;
+  margin: 0 3% 0 5%;
+}
+.IndexSlides {
+    font-size: 25px;
 }
