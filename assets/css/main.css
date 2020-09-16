@@ -131,6 +131,9 @@ body {
     bottom: 50%;
     margin: 5% 5% 0 5%;
 }
+#detailPage {
+    transition: 0.5s;
+}
 #detailPage:hover{
     cursor: pointer;
     padding: 15px;
