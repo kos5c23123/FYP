@@ -11,11 +11,31 @@ let text = document.getElementsByClassName("SlideText");
 let textTime = document.getElementsByClassName("SlideTextTime");
 let NowLocation = document.getElementById("NowLocation");
 const Http = new XMLHttpRequest();
+const HKDist = [
+    "Central and Western","Eastern","Southern",
+    "Wan Chai","Sham Shui Po","Kowloon City",
+    "Kwun Tong","Wong Tai Sin","Yau Tsim Mong",
+    "Islands","Kwai Tsing","North",
+    "Sai Kung","Sha Tin","Tai Po",
+    "Tsuen Wan","Tuen Mun","Yuen Long"];
 let FThours = [];
 let NextHours = [];
-let currentIndex = 0;
 let iconNumber;
 let TimeArray = [00,30];
+const viewSize = 6;
+let currentIndex = 0;
+let [btnNext, btnPrev] = [null, null];
+let ZoneStatus = 0;
+
+const setup = () => {
+    btnNext = document.querySelector('.next'),
+    btnPrev = document.querySelector('.prev')
+  
+    btnNext.addEventListener('click', clickNext);
+    btnPrev.addEventListener('click', clickPrevious);
+
+    showOutput(currentIndex);
+}
 
 function GetData() {
     var Time = new Date();
@@ -53,7 +73,7 @@ function GetData() {
             FThours[i] = (snapshot.val())[i].temp;
             NextHours[i] = (snapshot.val())[i].time;
         }
-        Add(0);
+        setup();
     })
 
 }
@@ -73,7 +93,7 @@ function GetDataOfDist(){
         var Dist = json["results"];
         let Final = "";
         let Zone = Dist[(Dist.length)-4]['address_components'][0]['long_name'];
-        NowLocation.innerHTML = Zone;
+        // console.log(Dist[Dist.length-1]['address_components'][0]['long_name']);
         ArrayZone = Zone.split(" ");
         for (var i = 0; i < ArrayZone.length-1;i++){
             if (i == ArrayZone.length-2){
@@ -82,19 +102,30 @@ function GetDataOfDist(){
                 Final += (ArrayZone[i]+ " ");
             }
         }
+        for (var i = 0;i < HKDist.length;i++){
+            if (Final == HKDist[i] ){
+                NowLocation.innerHTML = Zone;
+                ZoneStatus = 1;
+                break;
+            }
+        }
+        if (ZoneStatus == 0){
+            Final = Dist[(Dist.length)-1]['address_components'][0]['long_name'];
+            NowLocation.innerHTML = Final;
+        }
         db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
-            NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+            NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
             if (NowTemp.innerHTML == "NULL"){
                 db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
-                    NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+                    NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
                 })
             }
         })
         db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
-            rainfall.innerHTML = snapshot.val().max || 'NULL';
-            if (snapshot.val().max == undefined){
+            rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || 'NULL';
+            if (rainfall.innerHTML == "NULL"){
                 db.ref(HKreg +  "/rainfall/Yau Tsim Mong").on('value', function(snapshot){
-                    rainfall.innerHTML = snapshot.val().max || '0';
+                    rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || '0';
                 })
             }
         })
@@ -154,26 +185,42 @@ function error(err) {
     alert(`ERROR(${err.code}): ${err.message}`)
 }
 
-const Add = step => {
-    currentIndex += step;
-    while(currentIndex < 0) {
-      currentIndex += FThours.length;
-    }
-    const result = Array.from({ length: slides }, (_, i) => FThours[(currentIndex + i) % FThours.length]);
-    const TimeResult = Array.from({length : slides}, (_, i) =>NextHours[(currentIndex + i) % NextHours.length]);
-    for (var j = 0 ;j <result.length;j++){
-    // textTime[j].innerHTML = TimeResult[j];
-    if (TimeResult[j] >= 12){
-        textTime[j].innerHTML =  TimeResult[j] + "PM";
-        text[j].innerHTML = result[j];
-    }else{
-        textTime[j].innerHTML =  TimeResult[j] + "AM";
-        text[j].innerHTML = result[j];
-    }
-    }
-    return result;
-  }
+const isIndexOuterEdge = (index, length, size) => index >= length - size;
 
+const viewNumbers = (FThours, { startIndex = 0, size = viewSize } = {}) => {
+    if(FThours == null || (size == null && viewSize == null)) return;
+    else if(FThours.length < size) return;
+    else return FThours.slice(startIndex, size + startIndex);
+}
+
+const clickNext = (event) => {
+    if(FThours == null, currentIndex == null || viewSize == null
+    || isIndexOuterEdge(currentIndex, FThours.length, viewSize)) return;
+
+    const index = currentIndex++ + 1;
+    showOutput(index);
+}
+const clickPrevious = (event) => {
+    if(currentIndex == null || currentIndex <= 0) return;
+
+    const index = currentIndex-- - 1;
+    showOutput(index);
+}
+const showOutput = (index) => {
+    if(FThours == null || viewSize == null | viewSize == index || index < 0) return;
+
+    for (var i = 0;i <(viewNumbers(FThours, {startIndex: index})).length;i++){
+        if (viewNumbers(NextHours, {startIndex: index})[i] >=12){
+            textTime[i].innerHTML = viewNumbers(NextHours, {startIndex: index})[i] + "PM";
+        }else{
+            textTime[i].innerHTML = viewNumbers(NextHours, {startIndex: index})[i] + "AM";
+        }
+        text[i].innerHTML = viewNumbers(FThours, {startIndex: index})[i];
+    }
+
+    btnPrev.disabled = index <= 0;
+    btnNext.disabled = isIndexOuterEdge(index, FThours.length, viewSize);
+}
 
 startTime();
 GetData();
