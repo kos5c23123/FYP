@@ -84,9 +84,19 @@ function GetDataOfDist(){
         }
         db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
             NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+            if (NowTemp.innerHTML == "NULL"){
+                db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
+                    NowTemp.innerHTML = snapshot.val().temperature || 'NULL';
+                })
+            }
         })
         db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
             rainfall.innerHTML = snapshot.val().max || 'NULL';
+            if (snapshot.val().max == undefined){
+                db.ref(HKreg +  "/rainfall/Yau Tsim Mong").on('value', function(snapshot){
+                    rainfall.innerHTML = snapshot.val().max || '0';
+                })
+            }
         })
     }
 }
