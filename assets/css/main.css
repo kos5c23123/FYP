@@ -199,16 +199,16 @@ body {
 }
 
 #rainfallChart {
-    width: 400px !important;
+    width: 360px !important;
     height: 200px !important;
 }
 
 #TempChart {
-    width: 400px !important;
+    width: 360px !important;
     height: 200px !important;
 }
 
 #HumidityChart {
-    width: 400px !important;
+    width: 360px !important;
     height: 200px !important;
 }

@@ -25,6 +25,7 @@ const HKDist = [
     "Tsuen Wan","Tuen Mun","Yuen Long"];
 let FThours = [];
 let NextHours = [];
+let TotalRainfallArray = [];
 let iconNumber;
 let TimeArray = [00,30];
 const viewSize = 6;
@@ -261,23 +262,38 @@ function closeModal(modal) {
   overlay.classList.remove('active')
 }
 
+function GetTotoalrainfall(){
+    var Time = new Date();
+    for (var i = 0; i < arrlist.length-1;i++){
+        let ThisMonth = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-';
+        ThisMonth = ThisMonth + ('0' + (i+1)).slice(-2)
+        db.ref("HK/" + ThisMonth).on('value', function(snapshot){
+            var a = (snapshot.val() && snapshot.val().TotalRainFall) || "0";
+            TotalRainfallArray.push(a);
+        })
+    }
+    t = setTimeout(function(){
+        console.log(TotalRainfallArray);
+        let massPopChart = new Chart(rainfallChart,{
+            type:'line',
+            data:{
+              labels:arrlist,
+              datasets:[{
+                label:'RainFall in a month',
+                data:TotalRainfallArray,
+                borderColor: "#3e95cd",
+                fill : false
+              }]
+            },
+            options:{
+              responsive: true,
+              maintainAspectRatio: false
+            }
+          })
+    },3000)
+
+}
+
 // startTime();
 // GetData();
-
-
-let massPopChart = new Chart(rainfallChart,{
-  type:'line',
-  data:{
-    labels:arrlist,
-    datasets:[{
-      label:'RainFall in a month',
-      data:[],
-      borderColor: "#3e95cd",
-      fill : false
-    }]
-  },
-  options:{
-    responsive: true,
-    maintainAspectRatio: false
-  }
-})
+// GetTotoalrainfall();
