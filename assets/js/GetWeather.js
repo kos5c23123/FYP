@@ -271,7 +271,7 @@ let massPopChart = new Chart(rainfallChart,{
     labels:arrlist,
     datasets:[{
       label:'RainFall in a month',
-      data:[1000,2000,300],
+      data:[],
       borderColor: "#3e95cd",
       fill : false
     }]
