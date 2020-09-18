@@ -149,8 +149,8 @@ def Get48Future():
         IntNowHour += 1
     print("Get48Future:Finished Sending!")
 
-# while True:
-#     CheckTime()
+while True:
+    CheckTime()
 
 # reqwarninfo = requests.get(warningInfo).json()
 # warnStatusCode = []
