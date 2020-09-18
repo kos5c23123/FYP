@@ -144,18 +144,15 @@ body {
 
 .modal {
     position: fixed;
-    top: 10%;
-    left: 5%;
     transform: translate(-5%, -10%) scale(0);
     transition: 200ms ease-in-out;
     z-index: 10;
-    /* background-color: white; */
     max-width: 90%;
     color: black;
 }
 
 .modal.active{
-    transform: translate(5%, -10%) scale(1);
+    transform: translate(8%, 10%) scale(1);
 }
 .modal-header {
     padding: 10px 15px;
@@ -179,7 +176,7 @@ body {
     color: black;
     background-color: white;
     border-radius: 10px;
-    max-width: 40%;
+    max-width: 45%;
     margin: 2% 2%;
     display: inline-block;
 }
