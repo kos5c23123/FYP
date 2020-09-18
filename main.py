@@ -82,6 +82,17 @@ def GetWeather():
         "HighTemp" : hkodata['hko']['HomeMaxTemperature'],
         "LowTemp" : hkodata['hko']['HomeMinTemperature']
     })
+    Total = 0
+    snapshot2 = ref2.get()
+    PassRain = int(snapshot2['TotalRainFall'])
+    Total = PassRain
+    snapshot = ref.get()
+    for val in snapshot['rainfall']:
+        RainMax = int(snapshot['rainfall'][val]['max'])
+        Total += RainMax
+    ref2.update({
+        'TotalRainFall' : Total
+    })
     print("GetWeather:Finished Sending!")
 
 def GetFuture():
@@ -116,6 +127,9 @@ def GetSun():
             'Up' : Sun[x][1],
             'down' : Sun[x][3]
         })
+    ref.update({
+        'TotalRainFall' : '0'
+    })
     print("GetSun:Finished Sending!")
 
 def Get48Future():
@@ -135,8 +149,8 @@ def Get48Future():
         IntNowHour += 1
     print("Get48Future:Finished Sending!")
 
-while True:
-    CheckTime()
+# while True:
+#     CheckTime()
 
 # reqwarninfo = requests.get(warningInfo).json()
 # warnStatusCode = []

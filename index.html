@@ -6,7 +6,6 @@
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
   <script src="assets/js/config.js"></script>
-  <script src="https://kit.fontawesome.com/8d22a446d2.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
@@ -158,38 +157,21 @@
     <canvas id="rainfallChart"></canvas>
   </div>
   <div class="modal-body">
-    The service is referred to by different colloquialisms depending on the region. It may simply be referred to as a "text" in North America, the United Kingdom, Australia".
+    <canvas id="TempChart"></canvas>
   </div>
   <div class="modal-body">
-    The service is referred to by different colloquialisms depending on the region. It may simply be referred to as a "text" in North America, the United Kingdom, Australia".
+    <canvas id="HumidityChart"></canvas>
   </div>
   <div class="modal-body">
-    The service is referred to by different colloquialisms depending on the region. It may simply be referred to as a "text" in North America, the United Kingdom, Australia".
+    <canvas id="Chart"></canvas>
   </div>
 </div>
 <div id="overlay"></div>
 </body>
-<script src="assets/js/GetWeather.js"></script>
+<script src="https://kit.fontawesome.com/8d22a446d2.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="assets/js/GetWeather.js"></script>
 <script>
-  let arrlist = ['d', 'e', 'c', 'a', 'f', 'f', 'e', 'i', 'n', 'a', 't', 'e', 'd','d', 'e', 'c', 'a', 'f', 'f', 'e', 'i', 'n', 'a', 't', 'e', 'd']
-  let rainfallChart = document.getElementById('rainfallChart').getContext('2d')
-
-  let massPopChart = new Chart(rainfallChart,{
-    type:'bar',
-    data:{
-      labels:arrlist,
-      datasets:[{
-        label:'ABCCC',
-        data:[
-          1000,
-          2000,
-          300
-        ]
-      }]
-    },
-    options:{}
-  })
 </script>
 
 </html>

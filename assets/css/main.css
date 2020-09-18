@@ -145,7 +145,7 @@ body {
 .modal {
     position: fixed;
     transform: translate(-5%, -10%) scale(0);
-    transition: 200ms ease-in-out;
+    transition: 300ms ease-in-out;
     z-index: 10;
     max-width: 90%;
     color: black;
@@ -177,7 +177,7 @@ body {
     background-color: white;
     border-radius: 10px;
     max-width: 45%;
-    margin: 2% 2%;
+    margin: 1% 2%;
     display: inline-block;
 }
 
@@ -189,11 +189,26 @@ body {
     bottom: 0;
     right: 0;
     background-color: rgba(0,0,0,.5);
-    transition: 200ms ease-in-out;
+    transition: 300ms ease-in-out;
     pointer-events: none;
 }
 
 #overlay.active {
     opacity: 1;
     pointer-events: all;
+}
+
+#rainfallChart {
+    width: 400px !important;
+    height: 200px !important;
+}
+
+#TempChart {
+    width: 400px !important;
+    height: 200px !important;
+}
+
+#HumidityChart {
+    width: 400px !important;
+    height: 200px !important;
 }

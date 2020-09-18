@@ -10,6 +10,11 @@ var slides = document.getElementsByClassName("Slides").length;
 let text = document.getElementsByClassName("SlideText");
 let textTime = document.getElementsByClassName("SlideTextTime");
 let NowLocation = document.getElementById("NowLocation");
+const openModalBotton = document.querySelectorAll('[data-modal-target]')
+const closeModalBotton = document.querySelectorAll('[data-close-button]')
+const overlay = document.getElementById('overlay')
+let arrlist = []
+let rainfallChart = document.getElementById('rainfallChart').getContext('2d')
 const Http = new XMLHttpRequest();
 const HKDist = [
     "Central and Western","Eastern","Southern",
@@ -26,6 +31,10 @@ const viewSize = 6;
 let currentIndex = 0;
 let [btnNext, btnPrev] = [null, null];
 let ZoneStatus = 0;
+
+for (var i = 0; i < 32;i++){
+    arrlist[i] = (i+1)
+  }
 
 const setup = () => {
     btnNext = document.querySelector('.next'),
@@ -222,13 +231,6 @@ const showOutput = (index) => {
     btnNext.disabled = isIndexOuterEdge(index, FThours.length, viewSize);
 }
 
-// startTime();
-// GetData();
-
-const openModalBotton = document.querySelectorAll('[data-modal-target]')
-const closeModalBotton = document.querySelectorAll('[data-close-button]')
-const overlay = document.getElementById('overlay')
-
 openModalBotton.forEach(button =>{
   button.addEventListener('click', () => {
     const modal = document.querySelector(button.dataset.modalTarget)
@@ -259,3 +261,23 @@ function closeModal(modal) {
   overlay.classList.remove('active')
 }
 
+// startTime();
+// GetData();
+
+
+let massPopChart = new Chart(rainfallChart,{
+  type:'line',
+  data:{
+    labels:arrlist,
+    datasets:[{
+      label:'RainFall in a month',
+      data:[1000,2000,300],
+      borderColor: "#3e95cd",
+      fill : false
+    }]
+  },
+  options:{
+    responsive: true,
+    maintainAspectRatio: false
+  }
+})
