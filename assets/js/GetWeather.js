@@ -85,6 +85,24 @@ function GetData() {
         }
         setup();
     })
+    Final = "A"
+    db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
+        NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
+        console.log(NowTemp.innerHTML)
+        if (NowTemp.innerHTML == "NULL"){
+            db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
+                NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
+            })
+        }
+    })
+    db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
+        rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || 'NULL';
+        if (rainfall.innerHTML == "NULL"){
+            db.ref(HKreg +  "/rainfall/Yau Tsim Mong").on('value', function(snapshot){
+                rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || '0';
+            })
+        }
+    })
 
 }
 
@@ -186,11 +204,13 @@ function success(position){
     const longitude = position.coords.longitude;
     let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude +','+ longitude + '&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
     //Example Link
+    console.log(url)
     // let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=22.3919353,114.1863081&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
     Http.open("GET",url);
     Http.send();
     GetDataOfDist();
 }
+
 function error(err) {
     alert(`ERROR(${err.code}): ${err.message}`)
 }
@@ -294,6 +314,6 @@ function GetTotoalrainfall(){
 
 }
 
-// startTime();
-// GetData();
-// GetTotoalrainfall();
+startTime();
+GetData();
+GetTotoalrainfall();

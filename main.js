@@ -1,8 +1,8 @@
 const { app, BrowserWindow } = require('electron')
 
 function createWindow() {
-  process.env.GOOGLE_API_KEY = 'AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ';
-  window = new BrowserWindow({ width: 1000, height: 700 })
+  process.env.GOOGLE_API_KEY = 'AIzaSyDNgedYtU-GR7aPCGcZUHCjtMKd7uomw1c';
+  window = new BrowserWindow({ width: 1024, height: 600 })
   window.loadFile('index.html')
 }
 
