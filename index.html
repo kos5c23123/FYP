@@ -2,176 +2,90 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
-  <script src="assets/js/config.js"></script>
-  <link rel="stylesheet" type="text/css" href="assets/css/main.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
+    <script src="assets/js/config.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="assets/css/main.css"> -->
+    <link rel="stylesheet" type="text/css" href="assets/css/test.css">
+    <!-- <link rel="stylesheet" href="assets/css/uikit.min.css" /> -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
 </head>
 
 <!-- <body onload="GetLocation()"> -->
-  <body>
-  <div class="main-div">
 
-    <div class="top-left">
-
-      <div id="icon1" class="top-left-child iconWeather">
-      </div>
-      <div id="Toicon" class="top-left-child Toicon">&#10095;</div>
-      <div id="icon2" class="top-left-child iconWeather">
-      </div>
-
-      <div class="top-left-child CurrentTemp">
-        <span id="NowTemp"></span>
-        <span>°C</span>
-      </div>
-
-      <div id="NowLocation" class="top-left-child">
-      </div>
-
-      <div id="Date" class="top-left-child">
-      </div>
-      <div id="nowTime" class="top-left-child">
-      </div>
-
-    </div>
-
-    <div class="top-right">
-
-      <div class="top-right-child">
-
-        <div class="sidebar">
-          <!-- <img src="assets/css/img/rainfall.png" alt="RainIcon"> -->
-          <i class="fas fa-cloud-rain"></i>
-        </div>
-
-        <div class="Fristcol">
-          <span>Rainfall</span>
-        </div>
-
-        <div class="Fristcol">
-          <span id="rainfall"></span>
-          <span>mm</span>
-        </div>
-
-      </div>
-
-      <div class="top-right-child">
-        <div class="sidebar">
-          <!-- <img src="assets/css/img/humidity.png" alt="HsumidityIcon"> -->
-          <i class="fas fa-tint"></i>
-        </div>
-
-        <div class="Fristcol">
-          <span>Humidity</span>
-        </div>
-
-        <div class="Fristcol">
-          <span id="humidity" ></span>
-          <span>%</span>
-        </div>
-      </div>
-
-      <div class="top-right-child">
-        <div class="sidebar">
-          <!-- <img src="assets/css/img/uv.png" alt="UVIcon"> -->
-          <i class="fas fa-sun"></i>
-        </div>
-
-        <div class="Fristcol">
-          <span>UV</span>
-        </div>
-
-        <div id="UV" class="Fristcol">
-        </div>
-      </div>
-
-      <div class="top-right-child">
-        <div class="sidebar temp">
-          <div class="HighLowTemp">
-            <!-- <img src="assets/css/img/up.png" alt="UPIcon"> -->
-            <i class="fas fa-arrow-up"></i>
-            <div class="HighLowTempText">
-              <span id="HighTempValue"></span>
-              <span>°C</span>
+<body>
+    <div class="grid-container">
+        <div class="Time">
+            <div class="Date">
+                <span id="Date">
+                  Date
+                </span>
             </div>
-          </div>
-          <div class="HighLowTemp" style="margin: 0 0 0 30%;">
-            <!-- <img src="assets/css/img/down.png" alt="DownIcon"> -->
-            <i class="fas fa-arrow-down"></i>
-            <div class="HighLowTempText">
-              <span id="LowTempValue"></span>
-              <span>°C</span>
+            <div class="Weeks">
+                <span id="Weeks">
+                  Weeks
+                </span>
             </div>
-          </div>
+            <div class="currentTime">
+                <span id="currentTime">currentTime</span>
+            </div>
         </div>
-      </div>
+        <div class="ICON">
+            <div id="currentIcon">
+            </div>
+        </div>
+        <div class="TEMP">
+            <span id="currentTemp">
+                temp
+            </span>
+        </div>
+        <div class="Rain BottomFlexBox">
+            <div id="rainIcon" class="BottomFlexBox-Icon">
+                <i class="fas fa-cloud-rain fa-5x"></i>
+            </div>
+            <span id="currentRain" class="BottomFlexBox-Text">
+                Rain
+            </span>
+        </div>
+        <div class="Hum BottomFlexBox">
+            <div id="HumIcon" class="BottomFlexBox-Icon">
+                <i class="fas fa-tint fa-5x"></i>
+            </div>
+            <span id="currentHum" class="BottomFlexBox-Text">
+                Hum
+            </span>
+        </div>
+        <div class="UV BottomFlexBox">
+            <div id="UVIcon" class="BottomFlexBox-Icon">
+                <i class="fas fa-sun fa-5x"></i>
+            </div>
+            <span id="currentUV" class="BottomFlexBox-Text">
+                UV
+            </span>
+        </div>
+        <div class="HIGHLOW">
+            <div class="HIcon">
+                <i class="fas fa-arrow-up fa-3x"></i>
+            </div>
+            <div class="HTemp">
+                <span id="HighTempValue">Higher</span>
+            </div>
+            <div class="LIcon">
+                <i class="fas fa-arrow-down fa-3x"></i>
+            </div>
+            <div class="LTemp">
+                <span id="LowTempValue">Lower</span>
+            </div>
+        </div>
+        <div class="WRANING"></div>
     </div>
-
-  </div>
-  <div class="container">
-    <div class="Slides BotNowTime">
-        <span class="SlideTextTime">NowTime</span>
-        <span class="SlideText IndexSlides"></span>
-        <span class="SlideTextTemp IndexSlides">°C</span>
-    </div>
-    <div class="Slides">
-      <span class="SlideTextTime">Time</span>
-      <span class="SlideText"></span>
-      <span class="SlideTextTemp">°C</span>
-    </div>
-    <div class="Slides">
-      <span class="SlideTextTime">Time</span>
-      <span class="SlideText"></span>
-      <span class="SlideTextTemp">°C</span>
-    </div>
-    <div class="Slides">
-      <span class="SlideTextTime">Time</span>
-      <span class="SlideText"></span>
-      <span class="SlideTextTemp">°C</span>
-    </div>
-    <div class="Slides">
-      <span class="SlideTextTime">Time</span>
-      <span class="SlideText"></span>
-      <span class="SlideTextTemp">°C</span>
-    </div>
-    <div class="Slides">
-      <span class="SlideTextTime">Time</span>
-      <span class="SlideText"></span>
-      <span class="SlideTextTemp">°C</span>
-    </div>
-    <div class="butcontainer">
-      <a class="prev">&#10094;</a>
-      <a class="next">&#10095;</a>
-    </div>
-  </div>
-  <div class="container Details">
-    <a data-modal-target="#modal" id="detailPage">More Detail!</a>
-  </div>
-<div class="modal" id="modal">
-  <div class="modal-header">
-    <button data-close-button class="close-button">&times;</button>
-  </div>
-  <div class="modal-body">
-    <canvas id="rainfallChart"></canvas>
-  </div>
-  <div class="modal-body">
-    <canvas id="TempChart"></canvas>
-  </div>
-  <div class="modal-body">
-    <canvas id="HumidityChart"></canvas>
-  </div>
-  <div class="modal-body">
-    <canvas id="Chart"></canvas>
-  </div>
-</div>
-<div id="overlay"></div>
 </body>
 <script src="https://kit.fontawesome.com/8d22a446d2.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="assets/js/GetWeather.js"></script>
-<script>
-</script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> -->
+<!-- <script src="assets/js/GetWeather.js"></script> -->
+<script src="assets/js/test.js"></script>
+<!-- <script src="assets/js/uikit.min.js"></script>
+<script src="assets/js/uikit-icons.min.js"></script> -->
 
 </html>

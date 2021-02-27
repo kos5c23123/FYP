@@ -8,7 +8,8 @@ body {
     color: white;
 }
 .main-div{
-    position: relative;
+    display: grid;
+    
 }
 
 .top-right {
@@ -40,7 +41,7 @@ body {
 .HighLowTempText {
     display: inline-block;
     position: absolute;
-    margin: 0 0 0 4%;
+    margin: 0 0 0 2%;
 }
 .fas {
     font-size: 32px;
