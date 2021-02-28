@@ -42,6 +42,7 @@ body {
     grid-area: ICON;
     display: grid;
     justify-content: center;
+    place-items: center;
 }
 
 #currentIcon {
