@@ -1,17 +1,42 @@
 {
-  "name": "weather-system",
-  "version": "1.0.0",
-  "description": "",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "electron-builder"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "electron": "^10.1.0"
-  }
+    "name": "weather-system",
+    "version": "1.0.0",
+    "description": "",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "electron-builder --linux"
+    },
+    "keywords": [],
+    "author": {
+        "name": "Danny",
+        "email": "kos5c23123@gmail.com"
+    },
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^10.1.0"
+    },
+    "build": {
+        "appId": "com.my.app",
+        "productName": "Weather-System",
+        "directories": {
+            "output": "dist"
+        },
+        "win": {
+            "target": "nsis"
+        },
+        "linux": {
+            "target": [
+                "AppImage", "deb"
+            ]
+        },
+        "extends": null,
+        "asar": true,
+        "nsis": {
+            "oneClick": false,
+            "allowToChangeInstallationDirectory": true,
+            "createDesktopShortcut": true
+        }
+    }
 }
