@@ -15,20 +15,18 @@
 <!-- <body onload="GetLocation()"> -->
 
 <body>
-    <div class="grid-container">
+    <div id="container" class="grid-container">
         <div class="Time">
             <div class="Date">
                 <span id="Date">
-                  Date
                 </span>
             </div>
             <div class="Weeks">
                 <span id="Weeks">
-                  Weeks
                 </span>
             </div>
             <div class="currentTime">
-                <span id="currentTime">currentTime</span>
+                <span id="currentTime"></span>
             </div>
         </div>
         <div class="ICON">
@@ -37,7 +35,7 @@
         </div>
         <div class="TEMP">
             <span id="currentTemp">
-                temp
+                
             </span>
         </div>
         <div class="Rain BottomFlexBox">
@@ -45,7 +43,7 @@
                 <i class="fas fa-cloud-rain fa-5x"></i>
             </div>
             <span id="currentRain" class="BottomFlexBox-Text">
-                Rain
+                
             </span>
         </div>
         <div class="Hum BottomFlexBox">
@@ -53,7 +51,7 @@
                 <i class="fas fa-tint fa-5x"></i>
             </div>
             <span id="currentHum" class="BottomFlexBox-Text">
-                Hum
+                
             </span>
         </div>
         <div class="UV BottomFlexBox">
@@ -61,7 +59,7 @@
                 <i class="fas fa-sun fa-5x"></i>
             </div>
             <span id="currentUV" class="BottomFlexBox-Text">
-                UV
+                
             </span>
         </div>
         <div class="HIGHLOW">
@@ -69,16 +67,16 @@
                 <i class="fas fa-arrow-up fa-3x"></i>
             </div>
             <div class="HTemp">
-                <span id="HighTempValue">Higher</span>
+                <span id="HighTempValue"></span>
             </div>
             <div class="LIcon">
                 <i class="fas fa-arrow-down fa-3x"></i>
             </div>
             <div class="LTemp">
-                <span id="LowTempValue">Lower</span>
+                <span id="LowTempValue"></span>
             </div>
         </div>
-        <div class="WRANING"></div>
+        <div class="WRANING" id="warning"></div>
     </div>
 </body>
 <script src="https://kit.fontawesome.com/8d22a446d2.js" crossorigin="anonymous"></script>

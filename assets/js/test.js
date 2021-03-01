@@ -1,4 +1,5 @@
 let db = firebase.database();
+const container = document.getElementById("container");
 const nowDate = document.getElementById("Date");
 const currentTime = document.getElementById("currentTime");
 const Weeks = document.getElementById("Weeks");
@@ -9,6 +10,7 @@ const currentHum = document.getElementById("currentHum");
 const currentUV = document.getElementById("currentUV");
 const HighTempValue = document.getElementById("HighTempValue");
 const LowTempValue = document.getElementById("LowTempValue");
+const warning = document.getElementById("warning");
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const TimeArray = [00, 30];
 
@@ -55,7 +57,14 @@ function GetData() {
     // } else {
     //     HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
     // }
-    HKreg = "HK/2021-02-26/15:30";
+    HKreg = "HK/2021-03-01/10:00";
+    db.ref("HK/2021-03-01/10:00/Warning").on('value', (snapshot) => {
+        if (snapshot.exists()) {
+            showWarning(Object.keys(snapshot.val()).length)
+        } else {
+            NonshowWarning()
+        }
+    })
     db.ref(HKreg + "/icon").on('value', (snapshot) => {
         iconNumber = snapshot.val() || 'NULL';
         if (iconNumber.length >= 2) {
@@ -83,11 +92,24 @@ function GetData() {
         currentUV.innerHTML = snapshot.val()
     })
 
-    db.ref("HK/2021-02-26/").on('value', (snapshot) => {
+    db.ref("HK/2021-03-01/").on('value', (snapshot) => {
         HighTempValue.innerHTML = (snapshot.val().HighTemp + "°C")
         LowTempValue.innerHTML = (snapshot.val().LowTemp + "°C")
     })
 
+}
+
+const NonshowWarning = () => {
+    container.style.gridTemplateAreas = '"Time Time Time Time" "ICON ICON TEMP TEMP" "Rain Hum UV HIGHLOW"';
+    currentTemp.style.fontSize = "6rem"
+}
+
+const showWarning = (length) => {
+    container.style.gridTemplateAreas = '"Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW"';
+    for (var i = 0; i < length.length; i++) {
+        var div = warning.document.createElement("div")
+        warning.appendChild(div)
+    }
 }
 
 StartTime()

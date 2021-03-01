@@ -105,7 +105,7 @@ body {
 .HTemp {
     grid-area: HTemp;
     margin: auto;
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 .LIcon {
@@ -116,7 +116,7 @@ body {
 .LTemp {
     grid-area: LTemp;
     margin: auto;
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 .WRANING {
