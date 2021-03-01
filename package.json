@@ -15,7 +15,8 @@
     },
     "license": "ISC",
     "devDependencies": {
-        "electron": "^10.1.0"
+        "electron": "^10.1.0",
+        "electron-builder": "^22.9.1"
     },
     "build": {
         "appId": "com.my.app",
@@ -28,7 +29,8 @@
         },
         "linux": {
             "target": [
-                "AppImage", "deb"
+                "AppImage",
+                "deb"
             ]
         },
         "extends": null,
