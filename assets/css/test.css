@@ -121,5 +121,22 @@ body {
 
 .WRANING {
     grid-area: WRANING;
-    background-color: teal;
+    display: flex;
+    place-items: center;
+    justify-content: space-around;
+    /* background-color: teal; */
+}
+
+.warningIcon {
+    height: 10rem;
+    width: 10rem;
+    background-size: cover;
+}
+
+.myGlower {
+    height: 10rem;
+    width: 10rem;
+    background-size: cover;
+    border: red;
+    border-style: solid;
 }

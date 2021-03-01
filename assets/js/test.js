@@ -33,6 +33,7 @@ const StartTime = () => {
     t = setTimeout(function() {
         StartTime();
         checkTimeIsMatch();
+        Shining()
     }, 1000);
 }
 
@@ -58,41 +59,41 @@ function GetData() {
     //     HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
     // }
     HKreg = "HK/2021-03-01/10:00";
-    db.ref("HK/2021-03-01/10:00/Warning").on('value', (snapshot) => {
+    db.ref("HK/2021-03-01/10:00/Warning").once('value', (snapshot) => {
         if (snapshot.exists()) {
-            showWarning(Object.keys(snapshot.val()).length)
+            showWarning()
         } else {
             NonshowWarning()
         }
     })
-    db.ref(HKreg + "/icon").on('value', (snapshot) => {
+    db.ref(HKreg + "/icon").once('value', (snapshot) => {
         iconNumber = snapshot.val() || 'NULL';
         if (iconNumber.length >= 2) {
-            currentIcon.style.backgroundImage = "url('assets/css/img/" + iconNumber[0] + ".png')";
+            currentIcon.style.backgroundImage = `url(assets/css/img/${iconNumber[0]}.png)`;
             // icon2.style.backgroundImage = "url('assets/css/img/" + iconNumber[1] + ".png')";
         } else {
-            currentIcon.style.backgroundImage = "url('assets/css/img/" + iconNumber[0] + ".png')";
+            currentIcon.style.backgroundImage = `url(assets/css/img/${iconNumber[0]}.png)`;
             // icon2.style.display = "none";
             // ToIcon.style.display = "none";
         }
     })
-    db.ref(HKreg + "/direct/Hong Kong Observatory/temperature").on("value", (snapshot) => {
+    db.ref(HKreg + "/direct/Hong Kong Observatory/temperature").once("value", (snapshot) => {
         currentTemp.innerHTML = (snapshot.val() + "°C")
 
     })
-    db.ref(HKreg + "/rainfall/Yau Tsim Mong").on('value', (snapshot) => {
+    db.ref(HKreg + "/rainfall/Yau Tsim Mong").once('value', (snapshot) => {
         currentRain.innerHTML = (snapshot.val().max + "mm")
     })
 
-    db.ref(HKreg + "/humidity").on('value', (snapshot) => {
+    db.ref(HKreg + "/humidity").once('value', (snapshot) => {
         currentHum.innerHTML = (snapshot.val() + "%")
     })
 
-    db.ref(HKreg + "/UV").on('value', (snapshot) => {
+    db.ref(HKreg + "/UV").once('value', (snapshot) => {
         currentUV.innerHTML = snapshot.val()
     })
 
-    db.ref("HK/2021-03-01/").on('value', (snapshot) => {
+    db.ref("HK/2021-03-01/").once('value', (snapshot) => {
         HighTempValue.innerHTML = (snapshot.val().HighTemp + "°C")
         LowTempValue.innerHTML = (snapshot.val().LowTemp + "°C")
     })
@@ -104,13 +105,30 @@ const NonshowWarning = () => {
     currentTemp.style.fontSize = "6rem"
 }
 
-const showWarning = (length) => {
+const showWarning = () => {
     container.style.gridTemplateAreas = '"Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW"';
-    for (var i = 0; i < length.length; i++) {
-        var div = warning.document.createElement("div")
-        warning.appendChild(div)
+    if (warning.hasChildNodes()) {
+        while (warning.lastElementChild) {
+            warning.removeChild(warning.lastElementChild);
+        }
     }
+    db.ref("HK/2021-03-01/10:00/Warning").once('value', (snapshot) => {
+        const Warnarr = Object.entries(snapshot.val())
+        for (var i = 0; i < Warnarr.length; i++) {
+            var div = document.createElement("div")
+            div.setAttribute("id", `${Warnarr[i][0]}`);
+            div.setAttribute("class", "warningIcon");
+            warning.appendChild(div)
+            div.style.backgroundImage = `url(assets/css/warning/${Warnarr[i][1].Name}.png)`
+        }
+    })
 }
 
+const Shining = () => {
+    const div = warning.querySelectorAll("div");
+    div.forEach(el => {
+        el.classList.toggle("myGlower")
+    })
+}
 StartTime()
 GetData()
