@@ -28,10 +28,10 @@
             "target": "nsis"
         },
         "linux": {
-            "target": [
-                "AppImage",
-                "deb"
-            ]
+            "target": {
+                "target": "appimage",
+                "arch": ["armv7l"]
+            }
         },
         "extends": null,
         "asar": true,
