@@ -57,7 +57,6 @@ function GetData() {
   } else {
     HKreg = `HK/${Today}/${Hour}:00`;
   }
-  console.log(HKreg);
   db.ref(`${HKreg}/Warning`).once("value", (snapshot) => {
     if (snapshot.exists()) {
       showWarning();
