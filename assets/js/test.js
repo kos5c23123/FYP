@@ -48,14 +48,13 @@ const checkTimeIsMatch = () => {
 
 function GetData() {
   var Time = new Date();
-  let Today =`${Time.getFullYear()}-${("0" + (Time.getMonth() + 1)).slice(-2)}-${("0" + Time.getDate()).slice(-2)}`;
-  let HKreg = "HK/" + Today;
+  let Today =`${Time.getFullYear()}-${("0" + (Time.getMonth() + 1)).slice(-2)}-${("0" + Time.getDate()).slice(-2)}`; 
   var Hour = checkTime(Time.getHours());
   var Mins = checkTime(Time.getMinutes());
   if (Mins >= 30) {
-    HKreg = `HK/${Today}/${Hour}:30`;
+    var HKreg = `HK/${Today}/${Hour}:30`;
   } else {
-    HKreg = `HK/${Today}/${Hour}:00`;
+    var HKreg = `HK/${Today}/${Hour}:00`;
   }
   db.ref(`${HKreg}/Warning`).once("value", (snapshot) => {
     if (snapshot.exists()) {
