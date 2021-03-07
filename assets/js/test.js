@@ -12,7 +12,6 @@ const HighTempValue = document.getElementById("HighTempValue");
 const LowTempValue = document.getElementById("LowTempValue");
 const warning = document.getElementById("warning");
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const TimeArray = [00, 30];
 
 const checkTime = (i) => (i < 10) ? "0" + i : i;
 
@@ -52,14 +51,15 @@ function GetData() {
     var Time = new Date();
     let Today = Time.getFullYear() + '-' + ('0' + (Time.getMonth() + 1)).slice(-2) + '-' + ('0' + Time.getDate()).slice(-2);
     let HKreg = "HK/" + Today;
-    var Mins = Time.getMinutes();
-    // if (Mins >= 30) {
-    //     HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[1];
-    // } else {
-    //     HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
-    // }
-    HKreg = "HK/2021-03-01/10:00";
-    db.ref("HK/2021-03-01/10:00/Warning").once('value', (snapshot) => {
+    var Hour = checkTime(Time.getHours());
+    var Mins = checkTime(Time.getMinutes());
+    if (Mins >= 30) {
+        HKreg = `HK/${Today}/${Hour}:30`;
+    } else {
+        HKreg = `HK/${Today}/${Hour}:00`;
+    }
+    console.log(HKreg)
+    db.ref(`${HKreg}/Warning`).once('value', (snapshot) => {
         if (snapshot.exists()) {
             showWarning()
         } else {

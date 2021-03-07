@@ -5,7 +5,7 @@ function createWindow() {
     // window = new BrowserWindow({ width: 1024, height: 600 })
     window = new BrowserWindow()
     window.setFullScreen(true)
-        // window.webContents.openDevTools()
+    // window.webContents.openDevTools()
     window.loadFile('index.html')
     globalShortcut.register('ESC', () => {
         process.exit();
