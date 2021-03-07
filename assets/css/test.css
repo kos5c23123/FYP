@@ -1,142 +1,142 @@
 body {
-    margin: 0;
-    /* background-image: url('img/bg.jpg'); */
-    background-size: cover;
+  margin: 0;
+  /* background-image: url('img/bg.jpg'); */
+  background-size: cover;
 }
 
 * {
-    font-family: 'Roboto Mono', monospace;
-    /* color: white; */
+  font-family: "Roboto Mono", monospace;
+  /* color: white; */
 }
 
 .grid-container {
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas: "Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW";
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW";
 }
 
 .Time {
-    grid-area: Time;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  grid-area: Time;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .Weeks {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 
 .Date {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 
 .currentTime {
-    font-size: 4rem;
+  font-size: 4rem;
 }
 
 .ICON {
-    grid-area: ICON;
-    display: grid;
-    justify-content: center;
-    place-items: center;
+  grid-area: ICON;
+  display: grid;
+  justify-content: center;
+  place-items: center;
 }
 
 #currentIcon {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 10rem;
-    height: 10rem;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 10rem;
+  height: 10rem;
 }
 
 .TEMP {
-    grid-area: TEMP;
-    display: flex;
-    place-items: center;
-    justify-content: center;
-    font-size: 4rem;
+  grid-area: TEMP;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  font-size: 4rem;
 }
 
 .BottomFlexBox {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin: auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: auto;
 }
 
 .BottomFlexBox-Icon {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .BottomFlexBox-Text {
-    flex-grow: 2;
-    font-size: 4rem;
+  flex-grow: 2;
+  font-size: 4rem;
 }
 
 .Rain {
-    grid-area: Rain;
+  grid-area: Rain;
 }
 
 .Hum {
-    grid-area: Hum;
+  grid-area: Hum;
 }
 
 .UV {
-    grid-area: UV;
+  grid-area: UV;
 }
 
 .HIGHLOW {
-    grid-area: HIGHLOW;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 0px 0px;
-    grid-template-areas: "HIcon HTemp" "LIcon LTemp";
+  grid-area: HIGHLOW;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0px 0px;
+  grid-template-areas: "HIcon HTemp" "LIcon LTemp";
 }
 
 .HIcon {
-    grid-area: HIcon;
-    margin: auto;
+  grid-area: HIcon;
+  margin: auto;
 }
 
 .HTemp {
-    grid-area: HTemp;
-    margin: auto;
-    font-size: 3rem;
+  grid-area: HTemp;
+  margin: auto;
+  font-size: 3rem;
 }
 
 .LIcon {
-    grid-area: LIcon;
-    margin: auto;
+  grid-area: LIcon;
+  margin: auto;
 }
 
 .LTemp {
-    grid-area: LTemp;
-    margin: auto;
-    font-size: 3rem;
+  grid-area: LTemp;
+  margin: auto;
+  font-size: 3rem;
 }
 
 .WRANING {
-    grid-area: WRANING;
-    display: flex;
-    place-items: center;
-    justify-content: space-around;
-    /* background-color: teal; */
+  grid-area: WRANING;
+  display: flex;
+  place-items: center;
+  justify-content: space-around;
+  /* background-color: teal; */
 }
 
 .warningIcon {
-    height: 10rem;
-    width: 10rem;
-    background-size: cover;
+  height: 10rem;
+  width: 10rem;
+  background-size: cover;
 }
 
 .myGlower {
-    height: 10rem;
-    width: 10rem;
-    background-size: cover;
-    border: red;
-    border-style: solid;
+  height: 10rem;
+  width: 10rem;
+  background-size: cover;
+  border: red;
+  border-style: solid;
 }
