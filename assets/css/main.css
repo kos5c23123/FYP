@@ -1,215 +1,143 @@
 body {
     margin: 0;
-    background-image: url('img/bg.jpg');
+    /* background-image: url('img/bg.jpg'); */
     background-size: cover;
-}
-* {
-    font-family: 'Roboto Mono', monospace;
-    color: white;
-}
-.main-div{
+  }
+  
+  * {
+    font-family: "Roboto Mono", monospace;
+    /* color: white; */
+  }
+  
+  .grid-container {
+    height: 100vh;
     display: grid;
-    
-}
-
-.top-right {
-    right: 0;
-    position: absolute;
-    margin: 4% 10% 0 0;
-    width: 120px;
-}
-.top-right-child {
-    margin-bottom: 25px;
-    position: relative;
-}
-.Fristcol {
-    margin: 5px 0 0 50%;
-    width: 100%;
-    font-size: 20px;
-}
-.sidebar {
-    overflow-x: hidden;
-    position: absolute;
-}
-.sidebar.temp {
-    width: 200px;
-}
-.HighLowTemp {
-    font-size: 20px;
-    display: inline-block;
-}
-.HighLowTempText {
-    display: inline-block;
-    position: absolute;
-    margin: 0 0 0 2%;
-}
-.fas {
-    font-size: 32px;
-}
-.top-left {
-    left: 0;
-    position: absolute;
-    margin: 4% 0 0 4%;
-}
-.CurrentTemp {
-    font-size: 30px;
-}
-.top-left-child {
-    margin: 0 0 15px;
-}
-.iconWeather {
-    height: 60px;
-    width: 60px;
-    background-size: cover;
-    display: inline-block;
-}
-.Toicon {
-    position: absolute;
-    display: inline-block;
-    margin: 15% 0 0 5px;
-}
-#icon2 {
-    margin-left: 15px;
-}
-.container {
-    position: absolute;
-    bottom: 0;
-    margin: auto;
-    height: 30%;
-    width: 100%;
-}
-.prev, .next {
-    cursor: pointer;
-    padding: 12px 18px 12px 18px;
-    margin: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: 13px;
-    transition: 0.6s ease;
-    border-radius: 50%;
-    user-select: none;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW";
   }
-.next {
-    right: 0;
-  }
-.prev:hover, .next:hover {
-    background-color: rgba(58, 58, 58, 0.8);
-}
-.butcontainer {
-    display: inline-block;
-    position: absolute;
-    margin: 15px;
-    height: 80px;
-    width: 120px;
-    padding-top: 5%;
-}
-.Slides {
-    display: inline-block;
-    margin: 15px;
-    height: 100px;
-    width: 80px;
-}
-.SlideText, .SlideTextTemp {
-    font-size: 22px;
-}
-.SlideTextTime {
-    margin: 5%;
-    font-size: 28px;
-}
-.Slides.BotNowTime {
-    box-shadow:0px 10px 45px 15px rgba(0,0,0,0.75);
-    border-radius: 5px;
-    margin: 0 3% 0 5%;
-    width: 100px;
-    text-align: center;
-}
-.IndexSlides {
-    font-size: 25px;
-}
-.Details {
-    height: auto;
-    width: auto;
-    bottom: 50%;
-    margin: 5% 5% 0 5%;
-}
-#detailPage {
-    transition: 0.5s;
-}
-#detailPage:hover{
-    cursor: pointer;
-    padding: 15px;
-    transition: 0.5s;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 
-                0 17px 50px 0 rgba(0,0,0,0.19);
-}
-
-.modal {
-    position: fixed;
-    transform: translate(-5%, -10%) scale(0);
-    transition: 300ms ease-in-out;
-    z-index: 10;
-    max-width: 90%;
-    color: black;
-}
-
-.modal.active{
-    transform: translate(8%, 10%) scale(1);
-}
-.modal-header {
-    padding: 10px 15px;
+  
+  .Time {
+    grid-area: Time;
+    height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-
-}
-
-.modal-header .close-button {
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background: none;
-    font-size: 1.25rem;
-    font-weight: bolder;
-    color: white;
-}
-.modal-body {
-    padding: 10px 15px;
-    color: black;
-    background-color: white;
-    border-radius: 10px;
-    max-width: 45%;
-    margin: 1% 2%;
-    display: inline-block;
-}
-
-#overlay {
-    position: fixed;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: rgba(0,0,0,.5);
-    transition: 300ms ease-in-out;
-    pointer-events: none;
-}
-
-#overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-#rainfallChart {
-    width: 360px !important;
-    height: 200px !important;
-}
-
-#TempChart {
-    width: 360px !important;
-    height: 200px !important;
-}
-
-#HumidityChart {
-    width: 360px !important;
-    height: 200px !important;
-}
+  }
+  
+  .Weeks {
+    font-size: 4rem;
+  }
+  
+  .Date {
+    font-size: 4rem;
+  }
+  
+  .currentTime {
+    font-size: 4rem;
+  }
+  
+  .ICON {
+    grid-area: ICON;
+    display: grid;
+    justify-content: center;
+    place-items: center;
+  }
+  
+  #currentIcon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 10rem;
+    height: 10rem;
+  }
+  
+  .TEMP {
+    grid-area: TEMP;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+  
+  .BottomFlexBox {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+  }
+  
+  .BottomFlexBox-Icon {
+    flex-grow: 1;
+  }
+  
+  .BottomFlexBox-Text {
+    flex-grow: 2;
+    font-size: 4rem;
+  }
+  
+  .Rain {
+    grid-area: Rain;
+  }
+  
+  .Hum {
+    grid-area: Hum;
+  }
+  
+  .UV {
+    grid-area: UV;
+  }
+  
+  .HIGHLOW {
+    grid-area: HIGHLOW;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0px 0px;
+    grid-template-areas: "HIcon HTemp" "LIcon LTemp";
+  }
+  
+  .HIcon {
+    grid-area: HIcon;
+    margin: auto;
+  }
+  
+  .HTemp {
+    grid-area: HTemp;
+    margin: auto;
+    font-size: 3rem;
+  }
+  
+  .LIcon {
+    grid-area: LIcon;
+    margin: auto;
+  }
+  
+  .LTemp {
+    grid-area: LTemp;
+    margin: auto;
+    font-size: 3rem;
+  }
+  
+  .WRANING {
+    grid-area: WRANING;
+    display: flex;
+    place-items: center;
+    justify-content: space-around;
+    /* background-color: teal; */
+  }
+  
+  .warningIcon {
+    height: 10rem;
+    width: 10rem;
+    background-size: cover;
+  }
+  
+  .myGlower {
+    height: 10rem;
+    width: 10rem;
+    background-size: cover;
+    border: red;
+    border-style: solid;
+  }
+  

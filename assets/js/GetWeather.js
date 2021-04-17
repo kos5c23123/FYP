@@ -1,319 +1,134 @@
 let db = firebase.database();
-let NowTemp = document.getElementById("NowTemp");
-let icon1 = document.getElementById("icon1");
-let icon2 = document.getElementById("icon2");
-let ToIcon = document.getElementById("Toicon");
-let UV = document.getElementById("UV");
-let humidity = document.getElementById("humidity");
-let rainfall = document.getElementById("rainfall");
-var slides = document.getElementsByClassName("Slides").length;
-let text = document.getElementsByClassName("SlideText");
-let textTime = document.getElementsByClassName("SlideTextTime");
-let NowLocation = document.getElementById("NowLocation");
-const openModalBotton = document.querySelectorAll('[data-modal-target]')
-const closeModalBotton = document.querySelectorAll('[data-close-button]')
-const overlay = document.getElementById('overlay')
-let arrlist = []
-let rainfallChart = document.getElementById('rainfallChart').getContext('2d')
-const Http = new XMLHttpRequest();
-const HKDist = [
-    "Central and Western","Eastern","Southern",
-    "Wan Chai","Sham Shui Po","Kowloon City",
-    "Kwun Tong","Wong Tai Sin","Yau Tsim Mong",
-    "Islands","Kwai Tsing","North",
-    "Sai Kung","Sha Tin","Tai Po",
-    "Tsuen Wan","Tuen Mun","Yuen Long"];
-let FThours = [];
-let NextHours = [];
-let TotalRainfallArray = [];
-let iconNumber;
-let TimeArray = [00,30];
-const viewSize = 6;
-let currentIndex = 0;
-let [btnNext, btnPrev] = [null, null];
-let ZoneStatus = 0;
+const container = document.getElementById("container");
+const nowDate = document.getElementById("Date");
+const currentTime = document.getElementById("currentTime");
+const Weeks = document.getElementById("Weeks");
+const currentIcon = document.getElementById("currentIcon");
+const currentTemp = document.getElementById("currentTemp");
+const currentRain = document.getElementById("currentRain");
+const currentHum = document.getElementById("currentHum");
+const currentUV = document.getElementById("currentUV");
+const HighTempValue = document.getElementById("HighTempValue");
+const LowTempValue = document.getElementById("LowTempValue");
+const warning = document.getElementById("warning");
+const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-for (var i = 0; i < 32;i++){
-    arrlist[i] = (i+1)
+const checkTime = (i) => (i < 10 ? "0" + i : i);
+
+const StartTime = () => {
+  var today = new Date(),
+    dd = String(today.getDate()).padStart(2, "0"),
+    mm = String(today.getMonth() + 1).padStart(2, "0"), //January is 0!
+    yyyy = today.getFullYear(),
+    h = checkTime(today.getHours()),
+    m = checkTime(today.getMinutes()),
+    s = checkTime(today.getSeconds()),
+    week = today.getDay();
+
+  Weeks.innerHTML = weekday[week];
+  nowDate.innerHTML = mm + "/" + dd + "/" + yyyy;
+  currentTime.innerHTML = h + ":" + m + ":" + s;
+  t = setTimeout(function () {
+    StartTime();
+    checkTimeIsMatch();
+    Shining();
+  }, 1000);
+};
+
+const checkTimeIsMatch = () => {
+  var today = new Date(),
+    m = checkTime(today.getMinutes()),
+    s = checkTime(today.getSeconds());
+  if ((m == 15 || m == 45) && s == 00) {
+    var T = setTimeout(function () {
+      GetData();
+    }, 500);
   }
-
-const setup = () => {
-    btnNext = document.querySelector('.next'),
-    btnPrev = document.querySelector('.prev')
-  
-    btnNext.addEventListener('click', clickNext);
-    btnPrev.addEventListener('click', clickPrevious);
-
-    showOutput(currentIndex);
-}
+};
 
 function GetData() {
-    var Time = new Date();
-    let Today = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-' + ('0' + Time.getDate()).slice(-2);
-    let HKreg = "HK/" + Today;
-    var Mins = Time.getMinutes();
-    if (Mins >= 30){
-        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[1];
-    }else {
-        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
+  var Time = new Date();
+  let Today =`${Time.getFullYear()}-${("0" + (Time.getMonth() + 1)).slice(-2)}-${("0" + Time.getDate()).slice(-2)}`; 
+  var Hour = checkTime(Time.getHours());
+  var Mins = checkTime(Time.getMinutes());
+  if (Mins >= 30) {
+    var HKreg = `HK/${Today}/${Hour}:30`;
+  } else {
+    var HKreg = `HK/${Today}/${Hour}:00`;
+  }
+  db.ref(`${HKreg}/Warning`).once("value", (snapshot) => {
+    if (snapshot.exists()) {
+      showWarning();
+    } else {
+      NonshowWarning();
     }
-    db.ref(HKreg + "/icon").on('value', function(snapshot){
-        iconNumber = snapshot.val() || 'NULL';
-        if (iconNumber.length >= 2){
-            icon1.style.backgroundImage = "url('assets/css/img/" +iconNumber[0] + ".png')";
-            icon2.style.backgroundImage = "url('assets/css/img/" +iconNumber[1] + ".png')";
-        }else{
-            icon1.style.backgroundImage = "url('assets/css/img/" +iconNumber + ".png')";
-            icon2.style.display = "none";
-            ToIcon.style.display = "none";
-        }
-    })
-    db.ref(HKreg).on('value', function(snapshot){
-        UV.innerHTML = snapshot.val().UV;
-    })
-    db.ref(HKreg).on('value', function(snapshot){
-        humidity.innerHTML = snapshot.val().humidity || 'NULL';
-    })
-    db.ref("HK/" + Today).on('value', function(snapshot){
-        HighTempValue.innerHTML = snapshot.val().HighTemp || 'NULL';
-        LowTempValue.innerHTML = snapshot.val().LowTemp || 'NULL';
-    })
-    db.ref("HK/Next48Hours").on('value', function(snapshot){
-        for(var i = 0;i <(snapshot.val()).length;i++){
-            FThours[i] = (snapshot.val())[i].temp;
-            NextHours[i] = (snapshot.val())[i].time;
-        }
-        setup();
-    })
-    Final = "A"
-    db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
-        NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
-        console.log(NowTemp.innerHTML)
-        if (NowTemp.innerHTML == "NULL"){
-            db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
-                NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
-            })
-        }
-    })
-    db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
-        rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || 'NULL';
-        if (rainfall.innerHTML == "NULL"){
-            db.ref(HKreg +  "/rainfall/Yau Tsim Mong").on('value', function(snapshot){
-                rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || '0';
-            })
-        }
-    })
-
-}
-
-function GetDataOfDist(){
-    var Time = new Date();
-    Today = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-' + ('0' + Time.getDate()).slice(-2);
-    HKreg = "HK/" + Today;
-    var Mins = Time.getMinutes();
-    if (Mins >= 30){
-        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[1];
-    }else {
-        HKreg = "HK/" + Today + "/" + TimeArray[2] + ":" + TimeArray[0] + TimeArray[0];
+  });
+  db.ref(`${HKreg}/icon`).once("value", (snapshot) => {
+    iconNumber = snapshot.val() || "NULL";
+    if (iconNumber.length >= 2) {
+      currentIcon.style.backgroundImage = `url(assets/css/img/${iconNumber[0]}.png)`;
+      // icon2.style.backgroundImage = "url('assets/css/img/" + iconNumber[1] + ".png')";
+    } else {
+      currentIcon.style.backgroundImage = `url(assets/css/img/${iconNumber[0]}.png)`;
+      // icon2.style.display = "none";
+      // ToIcon.style.display = "none";
     }
-    Http.onreadystatechange = (e) =>{
-        let json = JSON.parse(Http.responseText);
-        var Dist = json["results"];
-        let Final = "";
-        let Zone = Dist[(Dist.length)-4]['address_components'][0]['long_name'];
-        // console.log(Dist[Dist.length-1]['address_components'][0]['long_name']);
-        ArrayZone = Zone.split(" ");
-        for (var i = 0; i < ArrayZone.length-1;i++){
-            if (i == ArrayZone.length-2){
-                Final += ArrayZone[i];
-            }else {
-                Final += (ArrayZone[i]+ " ");
-            }
-        }
-        for (var i = 0;i < HKDist.length;i++){
-            if (Final == HKDist[i] ){
-                NowLocation.innerHTML = Zone;
-                ZoneStatus = 1;
-                break;
-            }
-        }
-        if (ZoneStatus == 0){
-            Final = Dist[(Dist.length)-1]['address_components'][0]['long_name'];
-            NowLocation.innerHTML = Final;
-        }
-        db.ref(HKreg +  "/direct/" + Final).on('value', function(snapshot){
-            NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
-            if (NowTemp.innerHTML == "NULL"){
-                db.ref(HKreg +  "/direct/Hong Kong Observatory").on('value', function(snapshot){
-                    NowTemp.innerHTML = (snapshot.val() && snapshot.val().temperature) || 'NULL';
-                })
-            }
-        })
-        db.ref(HKreg + "/rainfall/" + Final).on('value', function(snapshot){
-            rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || 'NULL';
-            if (rainfall.innerHTML == "NULL"){
-                db.ref(HKreg +  "/rainfall/Yau Tsim Mong").on('value', function(snapshot){
-                    rainfall.innerHTML = (snapshot.val() && snapshot.val().max) || '0';
-                })
-            }
-        })
+  });
+  db.ref(`${HKreg}/direct/Hong Kong Observatory/temperature`).once(
+    "value",
+    (snapshot) => {
+      currentTemp.innerHTML = snapshot.val() + "°C";
     }
+  );
+  db.ref(`${HKreg}/rainfall/Yau Tsim Mong`).once("value", (snapshot) => {
+    currentRain.innerHTML = snapshot.val().max + "mm";
+  });
+
+  db.ref(`${HKreg}/humidity`).once("value", (snapshot) => {
+    currentHum.innerHTML = snapshot.val() + "%";
+  });
+
+  db.ref(`${HKreg}/UV`).once("value", (snapshot) => {
+    currentUV.innerHTML = snapshot.val();
+  });
+
+  db.ref(`HK/${Today}`).once("value", (snapshot) => {
+    HighTempValue.innerHTML = snapshot.val().HighTemp + "°C";
+    LowTempValue.innerHTML = snapshot.val().LowTemp + "°C";
+  });
 }
 
-function checkTime(i) {
-    return (i < 10) ? "0" + i : i;
-}
+const NonshowWarning = () => {
+  container.style.gridTemplateAreas =
+    '"Time Time Time Time" "ICON ICON TEMP TEMP" "Rain Hum UV HIGHLOW"';
+  currentTemp.style.fontSize = "6rem";
+};
 
-function startTime() {
-    var today = new Date(),
-        dd = String(today.getDate()).padStart(2, '0'),
-        mm = String(today.getMonth() + 1).padStart(2, '0'), //January is 0!
-        yyyy = today.getFullYear(),
-        h = checkTime(today.getHours()),
-        m = checkTime(today.getMinutes()),
-        s = checkTime(today.getSeconds());
-    TimeArray[2] = h;
-    document.getElementById('nowTime').innerHTML = h + ":" + m + ":" + s;
-    document.getElementById('Date').innerHTML = mm + '/' + dd + '/' + yyyy;
-    t = setTimeout(function () {
-        startTime();
-        checkTimeIsMatch();
-    }, 1000);
-}
-
-function checkTimeIsMatch() {
-    var today = new Date(),
-        m = checkTime(today.getMinutes()),
-        s = checkTime(today.getSeconds());
-    if ((m == 15 || m == 45) && s == 00) {
-        var T = setTimeout(function () {
-            GetData();
-        }, 500)
+const showWarning = () => {
+  container.style.gridTemplateAreas =
+    '"Time Time Time Time" "ICON TEMP WRANING WRANING" "Rain Hum UV HIGHLOW"';
+  if (warning.hasChildNodes()) {
+    while (warning.lastElementChild) {
+      warning.removeChild(warning.lastElementChild);
     }
-}
-
-function GetLocation() {
-    if(!navigator.geolocation) {
-        alert('Geolocation is not supported by your browser');
-      } else {
-        navigator.geolocation.getCurrentPosition(success, error);
-      }
-}
-function success(position){
-    const latitude  = position.coords.latitude;
-    const longitude = position.coords.longitude;
-    let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude +','+ longitude + '&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
-    //Example Link
-    console.log(url)
-    // let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=22.3919353,114.1863081&key=AIzaSyAw9PVACjlLl2HtKdUwxBw0DGhyKwpK9pQ&language=en';
-    Http.open("GET",url);
-    Http.send();
-    GetDataOfDist();
-}
-
-function error(err) {
-    alert(`ERROR(${err.code}): ${err.message}`)
-}
-
-const isIndexOuterEdge = (index, length, size) => index >= length - size;
-
-const viewNumbers = (FThours, { startIndex = 0, size = viewSize } = {}) => {
-    if(FThours == null || (size == null && viewSize == null)) return;
-    else if(FThours.length < size) return;
-    else return FThours.slice(startIndex, size + startIndex);
-}
-
-const clickNext = (event) => {
-    if(FThours == null, currentIndex == null || viewSize == null
-    || isIndexOuterEdge(currentIndex, FThours.length, viewSize)) return;
-
-    const index = currentIndex++ + 1;
-    showOutput(index);
-}
-const clickPrevious = (event) => {
-    if(currentIndex == null || currentIndex <= 0) return;
-
-    const index = currentIndex-- - 1;
-    showOutput(index);
-}
-const showOutput = (index) => {
-    if(FThours == null || viewSize == null | viewSize == index || index < 0) return;
-
-    for (var i = 0;i <(viewNumbers(FThours, {startIndex: index})).length;i++){
-        if (viewNumbers(NextHours, {startIndex: index})[i] >=12){
-            textTime[i].innerHTML = viewNumbers(NextHours, {startIndex: index})[i] + "PM";
-        }else{
-            textTime[i].innerHTML = viewNumbers(NextHours, {startIndex: index})[i] + "AM";
-        }
-        text[i].innerHTML = viewNumbers(FThours, {startIndex: index})[i];
+  }
+  db.ref("HK/2021-03-01/10:00/Warning").once("value", (snapshot) => {
+    const Warnarr = Object.entries(snapshot.val());
+    for (var i = 0; i < Warnarr.length; i++) {
+      var div = document.createElement("div");
+      div.setAttribute("id", `${Warnarr[i][0]}`);
+      div.setAttribute("class", "warningIcon");
+      warning.appendChild(div);
+      div.style.backgroundImage = `url(assets/css/warning/${Warnarr[i][1].Name}.png)`;
     }
+  });
+};
 
-    btnPrev.disabled = index <= 0;
-    btnNext.disabled = isIndexOuterEdge(index, FThours.length, viewSize);
-}
-
-openModalBotton.forEach(button =>{
-  button.addEventListener('click', () => {
-    const modal = document.querySelector(button.dataset.modalTarget)
-    openModal(modal)
-  })
-})
-overlay.addEventListener('click',() =>{
-  const modals = document.querySelectorAll('.modal.active')
-  modals.forEach(modal => {
-    closeModal(modal)
-  })
-})
-closeModalBotton.forEach(button =>{
-  button.addEventListener('click', () => {
-    const modal = button.closest('.modal')
-    closeModal(modal)
-  })
-})
-
-function openModal(modal) {
-  if (modal == null) return
-  modal.classList.add('active')
-  overlay.classList.add('active')
-}
-function closeModal(modal) {
-  if (modal == null) return
-  modal.classList.remove('active')
-  overlay.classList.remove('active')
-}
-
-function GetTotoalrainfall(){
-    var Time = new Date();
-    for (var i = 0; i < arrlist.length-1;i++){
-        let ThisMonth = Time.getFullYear() + '-' + ('0' + (Time.getMonth()+1)).slice(-2) + '-';
-        ThisMonth = ThisMonth + ('0' + (i+1)).slice(-2)
-        db.ref("HK/" + ThisMonth).on('value', function(snapshot){
-            var a = (snapshot.val() && snapshot.val().TotalRainFall) || "0";
-            TotalRainfallArray.push(a);
-        })
-    }
-    t = setTimeout(function(){
-        console.log(TotalRainfallArray);
-        let massPopChart = new Chart(rainfallChart,{
-            type:'line',
-            data:{
-              labels:arrlist,
-              datasets:[{
-                label:'RainFall in a month',
-                data:TotalRainfallArray,
-                borderColor: "#3e95cd",
-                fill : false
-              }]
-            },
-            options:{
-              responsive: true,
-              maintainAspectRatio: false
-            }
-          })
-    },3000)
-
-}
-
-startTime();
+const Shining = () => {
+  const div = warning.querySelectorAll("div");
+  div.forEach((el) => {
+    el.classList.toggle("myGlower");
+  });
+};
+StartTime();
 GetData();
-GetTotoalrainfall();
