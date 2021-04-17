@@ -51,19 +51,19 @@ function GetData() {
   let Today =`${Time.getFullYear()}-${("0" + (Time.getMonth() + 1)).slice(-2)}-${("0" + Time.getDate()).slice(-2)}`; 
   var Hour = checkTime(Time.getHours());
   var Mins = checkTime(Time.getMinutes());
-  if (Mins >= 30) {
-    var HKreg = `HK/${Today}/${Hour}:30`;
-  } else {
-    var HKreg = `HK/${Today}/${Hour}:00`;
-  }
-  db.ref(`${HKreg}/Warning`).once("value", (snapshot) => {
+  // if (Mins >= 30) {
+  //   var HKreg = `HK/${Today}/${Hour}:30`;
+  // } else {
+  //   var HKreg = `HK/${Today}/${Hour}:00`;
+  // }
+  db.ref(`HK/2021-04-17/14:00/Warning`).once("value", (snapshot) => {
     if (snapshot.exists()) {
       showWarning();
     } else {
       NonshowWarning();
     }
   });
-  db.ref(`${HKreg}/icon`).once("value", (snapshot) => {
+  db.ref(`HK/2021-04-17/14:00/icon`).once("value", (snapshot) => {
     iconNumber = snapshot.val() || "NULL";
     if (iconNumber.length >= 2) {
       currentIcon.style.backgroundImage = `url(assets/css/img/${iconNumber[0]}.png)`;
@@ -74,25 +74,25 @@ function GetData() {
       // ToIcon.style.display = "none";
     }
   });
-  db.ref(`${HKreg}/direct/Hong Kong Observatory/temperature`).once(
+  db.ref(`HK/2021-04-17/14:00/direct/Hong Kong Observatory/temperature`).once(
     "value",
     (snapshot) => {
       currentTemp.innerHTML = snapshot.val() + "°C";
     }
   );
-  db.ref(`${HKreg}/rainfall/Yau Tsim Mong`).once("value", (snapshot) => {
+  db.ref(`HK/2021-04-17/14:00/rainfall/Yau Tsim Mong`).once("value", (snapshot) => {
     currentRain.innerHTML = snapshot.val().max + "mm";
   });
 
-  db.ref(`${HKreg}/humidity`).once("value", (snapshot) => {
+  db.ref(`HK/2021-04-17/14:00/humidity`).once("value", (snapshot) => {
     currentHum.innerHTML = snapshot.val() + "%";
   });
 
-  db.ref(`${HKreg}/UV`).once("value", (snapshot) => {
+  db.ref(`HK/2021-04-17/14:00/UV`).once("value", (snapshot) => {
     currentUV.innerHTML = snapshot.val();
   });
 
-  db.ref(`HK/${Today}`).once("value", (snapshot) => {
+  db.ref(`HK/2021-04-17/`).once("value", (snapshot) => {
     HighTempValue.innerHTML = snapshot.val().HighTemp + "°C";
     LowTempValue.innerHTML = snapshot.val().LowTemp + "°C";
   });
